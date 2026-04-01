@@ -32,7 +32,7 @@ export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
         <Button
           variant="outline"
           size="sm"
-          className="h-9 rounded-full border-black/10 bg-white/80 px-3 text-xs font-semibold text-foreground shadow-sm hover:bg-white dark:border-white/10 dark:bg-black/50 dark:text-white dark:hover:bg-black/60"
+          className="h-9 rounded-full border-black/10 bg-white/78 px-3 text-xs font-semibold text-foreground shadow-[0_8px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl hover:bg-white dark:border-white/10 dark:bg-[rgba(8,10,18,0.82)] dark:text-white dark:shadow-[0_8px_28px_rgba(0,0,0,0.34)] dark:hover:bg-[rgba(12,16,24,0.9)]"
         >
           <Globe className="h-4 w-4" />
           <span>{LABELS[locale]}</span>
@@ -40,12 +40,12 @@ export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
       </DropdownMenuTrigger>
       <DropdownMenuContent
         align="end"
-        className="min-w-40 rounded-2xl border-black/10 bg-white/95 p-2 shadow-2xl dark:border-white/10 dark:bg-black/60 dark:text-white"
+        className="min-w-40 rounded-2xl border-black/10 bg-white/90 p-2 shadow-[0_24px_80px_rgba(15,23,42,0.18)] backdrop-blur-2xl dark:border-white/10 dark:bg-[rgba(8,10,18,0.9)] dark:text-white dark:shadow-[0_24px_90px_rgba(0,0,0,0.5)]"
       >
         {locales.map((item) => (
           <DropdownMenuItem
             key={item}
-            className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-foreground outline-none focus:bg-[color:var(--accent)]/10 focus:text-foreground dark:text-white/90 dark:focus:bg-white/10 dark:focus:text-white"
+            className="cursor-pointer rounded-xl px-3 py-2 text-sm font-medium text-foreground outline-none transition-colors focus:bg-[color:var(--accent)]/10 focus:text-foreground dark:text-white/88 dark:focus:bg-white/10 dark:focus:text-white"
             onClick={() => setLocale(item)}
           >
             {LABELS[item]}

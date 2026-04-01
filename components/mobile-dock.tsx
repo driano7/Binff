@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { ArrowDownToLine, BookOpenText, BriefcaseBusiness, Coffee, Home, PanelsTopLeft, PocketKnife, UserRound } from "lucide-react"
+import { BookOpenText, BriefcaseBusiness, Coffee, PanelsTopLeft, PocketKnife, UserRound } from "lucide-react"
 
 import { localizedSectionHref } from "@/lib/navigation"
 import { cn } from "@/lib/utils"
@@ -11,7 +11,6 @@ import type { Locale } from "@/lib/site-content"
 
 type MobileDockProps = {
   locale: Locale
-  homeLabel: string
   aboutLabel: string
   packagesLabel: string
   portfolioLabel: string
@@ -27,7 +26,6 @@ type DockItem = {
 
 export function MobileDock({
   locale,
-  homeLabel,
   aboutLabel,
   packagesLabel,
   portfolioLabel,
@@ -40,14 +38,13 @@ export function MobileDock({
 
   const links = useMemo<DockItem[]>(
     () => [
-      { href: "/", label: homeLabel, icon: Home },
       { href: localizedSectionHref(locale, "about"), label: aboutLabel, icon: UserRound },
       { href: localizedSectionHref(locale, "packages"), label: packagesLabel, icon: PocketKnife },
       { href: "/portfolio", label: portfolioLabel, icon: PanelsTopLeft },
       { href: localizedSectionHref(locale, "services"), label: servicesLabel, icon: BriefcaseBusiness },
       { href: "/blog", label: blogLabel, icon: BookOpenText },
     ],
-    [aboutLabel, blogLabel, homeLabel, locale, packagesLabel, portfolioLabel, servicesLabel],
+    [aboutLabel, blogLabel, locale, packagesLabel, portfolioLabel, servicesLabel],
   )
 
   const scheduleCollapse = useCallback(() => {
@@ -75,13 +72,13 @@ export function MobileDock({
       <div className="pointer-events-none fixed inset-x-0 bottom-4 z-[70] px-4 sm:hidden">
         <nav
           className={cn(
-            "pointer-events-auto relative mx-auto flex w-full max-w-md items-center justify-between gap-1 rounded-[1.55rem] border border-black/10 bg-white/88 px-2 py-1 shadow-[0_20px_60px_rgba(15,23,42,0.18)] backdrop-blur-xl transition-all duration-300 ease-in-out",
+            "pointer-events-auto relative mx-auto flex w-full max-w-md items-center justify-between gap-1 rounded-[1.55rem] border border-black/10 bg-white/78 px-2 py-1 shadow-[0_20px_60px_rgba(15,23,42,0.14)] backdrop-blur-2xl transition-all duration-300 ease-in-out dark:border-white/10 dark:bg-[rgba(8,10,18,0.86)] dark:shadow-[0_24px_80px_rgba(0,0,0,0.5)]",
             isCollapsed ? "scale-0 opacity-0 translate-y-4 pointer-events-none" : "scale-100 opacity-100 translate-y-0",
           )}
         >
           <span
             aria-hidden
-            className="pointer-events-none absolute inset-0 rounded-[1.55rem] bg-[linear-gradient(135deg,rgba(255,255,255,0.95),rgba(255,242,226,0.92))]"
+            className="pointer-events-none absolute inset-0 rounded-[1.55rem] bg-[linear-gradient(135deg,rgba(255,255,255,0.82),rgba(250,238,222,0.72))] dark:bg-[linear-gradient(135deg,rgba(10,14,22,0.94),rgba(18,22,34,0.82))]"
           />
           {links.map((item) => {
             const Icon = item.icon
@@ -97,10 +94,10 @@ export function MobileDock({
               >
                 <span
                   className={cn(
-                    "inline-flex h-9 w-9 items-center justify-center rounded-2xl border transition-colors",
+                    "inline-flex h-9 w-9 items-center justify-center rounded-2xl border shadow-[inset_0_1px_0_rgba(255,255,255,0.2)] transition-colors",
                     active
-                      ? "border-[color:var(--accent)]/35 bg-[color:var(--accent)]/12 text-[color:var(--accent)]"
-                      : "border-black/10 bg-white/80 text-foreground",
+                      ? "border-[color:var(--accent)]/35 bg-[color:var(--accent)]/14 text-[color:var(--accent)] dark:bg-[color:var(--accent)]/16"
+                      : "border-black/10 bg-white/78 text-foreground dark:border-white/10 dark:bg-white/6 dark:text-white",
                   )}
                 >
                   <Icon className="h-4 w-4" />
@@ -108,7 +105,7 @@ export function MobileDock({
                 <span
                   className={cn(
                     "max-w-[4.5rem] truncate text-[9px] font-medium leading-none",
-                    active ? "text-[color:var(--accent)]" : "text-muted-foreground",
+                    active ? "text-[color:var(--accent)]" : "text-muted-foreground dark:text-white/65",
                   )}
                 >
                   {item.label}
@@ -116,21 +113,6 @@ export function MobileDock({
               </Link>
             )
           })}
-
-          <button
-            type="button"
-            onClick={() => {
-              setIsCollapsed(true)
-              if (collapseTimer.current) clearTimeout(collapseTimer.current)
-            }}
-            aria-label="Collapse dock"
-            className="relative flex flex-col items-center justify-center gap-1 px-2 py-1"
-          >
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-2xl border border-black/10 bg-white/80 text-foreground">
-              <ArrowDownToLine className="h-4 w-4" />
-            </span>
-            <span className="text-[9px] font-medium leading-none text-muted-foreground">Hide</span>
-          </button>
         </nav>
       </div>
 
@@ -139,7 +121,7 @@ export function MobileDock({
         aria-label="Show dock"
         onClick={handleDockInteraction}
         className={cn(
-          "pointer-events-auto fixed right-4 bottom-6 z-[71] flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-white/90 text-foreground shadow-[0_20px_60px_rgba(15,23,42,0.22)] backdrop-blur-xl transition-all duration-300 ease-in-out sm:hidden",
+          "pointer-events-auto fixed right-4 bottom-6 z-[71] flex h-12 w-12 items-center justify-center rounded-full border border-black/10 bg-white/82 text-foreground shadow-[0_20px_60px_rgba(15,23,42,0.18)] backdrop-blur-2xl transition-all duration-300 ease-in-out dark:border-white/10 dark:bg-[rgba(8,10,18,0.84)] dark:text-white dark:shadow-[0_24px_80px_rgba(0,0,0,0.48)] sm:hidden",
           isCollapsed ? "scale-100 opacity-100" : "scale-0 opacity-0 pointer-events-none",
         )}
       >

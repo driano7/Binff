@@ -80,7 +80,6 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
       </div>
       <MobileDock
         locale={locale}
-        homeLabel={copy.nav.home}
         aboutLabel={copy.nav.about}
         packagesLabel={copy.nav.packages}
         portfolioLabel={copy.nav.portfolio}
