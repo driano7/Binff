@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { Home } from "lucide-react"
 
 import { LanguageSwitcher } from "@/components/language-switcher"
 import { MobileDock } from "@/components/mobile-dock"
@@ -30,7 +31,12 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
     <>
       <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4 sm:px-6">
         <header className="pointer-events-auto relative flex w-full max-w-[1100px] items-center justify-between gap-3 rounded-3xl border px-3 py-3 text-sm font-semibold shadow-2xl transition-all duration-500 backdrop-blur-md text-gray-900 dark:text-white border-black/5 bg-white/80 dark:border-white/10 dark:bg-black/60 sm:px-4">
-          <Link href="/" className="flex min-w-0 flex-col leading-tight">
+          <Link href="/" className="flex min-w-0 items-center gap-2 leading-tight">
+            {pathname !== "/" ? (
+              <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-black/10 bg-white/70 text-foreground shadow-sm backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:text-white sm:hidden">
+                <Home className="h-4 w-4" />
+              </span>
+            ) : null}
             <span className="truncate text-sm font-semibold text-foreground sm:text-base">{copy.brand.name}</span>
           </Link>
 
