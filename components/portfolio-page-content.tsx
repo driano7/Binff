@@ -325,7 +325,7 @@ function RepositoryCard({
               href={repo.html_url}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-full bg-[color:var(--foreground)] px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90"
+              className="inline-flex items-center gap-2 rounded-full bg-[color:var(--foreground)] px-4 py-2 text-sm font-semibold text-white transition-opacity hover:opacity-90 dark:text-black"
             >
               {label.openRepo}
               <ArrowUpRight className="h-4 w-4" />

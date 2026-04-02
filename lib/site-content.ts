@@ -184,7 +184,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       title: "Websites and mobile apps that can sell in two markets at once.",
       slogan: "We're technology and professional development",
       description:
-        "We design, build, and launch bilingual digital products for founders who want product-minded execution, strong UX/UI, AI-assisted delivery, and practical growth across Mexico and Canada.",
+        "We design, build, and launch bilingual digital products for founders who want product-minded execution, strong UX/UI, AI-assisted delivery, and practical growth across Canada and Mexico.",
       primaryCta: "Book a call",
       secondaryCta: "See the work",
       highlightOne: "Bilingual by default",
@@ -304,7 +304,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     footer: {
       note: "Bilingual web and mobile studio for Mexico and Canada.",
-      credit: "Made with <3 by Donovan Riaño.",
+      credit: "Made with love by Donovan Riaño.",
       rights: "All rights reserved.",
     },
   },
@@ -448,7 +448,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     footer: {
       note: "Studio bilingue web et mobile pour le Mexique et le Canada.",
-      credit: "Fait avec <3 par Donovan Riaño.",
+      credit: "Fait avec amour par Donovan Riaño.",
       rights: "Tous droits réservés.",
     },
   },
@@ -592,7 +592,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     footer: {
       note: "Estudio bilingüe de web y mobile para México y Canadá.",
-      credit: "Hecho con <3 de Donovan Riaño.",
+      credit: "Hecho con amor por Donovan Riaño.",
       rights: "Todos los derechos reservados.",
     },
   },

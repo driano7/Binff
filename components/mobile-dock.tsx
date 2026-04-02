@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { BookOpenText, BriefcaseBusiness, Coffee, PanelsTopLeft, PocketKnife, UserRound } from "lucide-react"
+import { BookOpenText, BriefcaseBusiness, Menu, PanelsTopLeft, PocketKnife, UserRound } from "lucide-react"
 
 import { localizedSectionHref } from "@/lib/navigation"
 import { cn } from "@/lib/utils"
@@ -125,7 +125,7 @@ export function MobileDock({
           isCollapsed ? "scale-100 opacity-100" : "scale-0 opacity-0 pointer-events-none",
         )}
       >
-        <Coffee className="h-5 w-5" />
+        <Menu className="h-5 w-5" />
       </button>
 
       <div aria-hidden className="h-[calc(4.4rem+env(safe-area-inset-bottom))] sm:hidden" />

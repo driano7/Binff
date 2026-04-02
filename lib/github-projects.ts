@@ -156,9 +156,12 @@ export async function getFeaturedGitHubProjects(limit = 7): Promise<GitHubReposi
         const defaultBranch = repo.default_branch || "main"
         const readmeCover = await resolveReadmeCover(owner, repo.name, defaultBranch)
         const fallbackCover = `https://opengraph.githubassets.com/1/${owner}/${repo.name}`
+        const normalizedHomepage =
+          repo.name.toLowerCase().includes("xoco") ? "https://xococafe.site" : repo.homepage
 
         return {
           ...repo,
+          homepage: normalizedHomepage,
           coverImageUrl: readmeCover ?? fallbackCover,
         }
       }),
@@ -181,4 +184,3 @@ export function summarizeGitHubProjects(projects: GitHubRepository[]) {
     projectCount: projects.length,
   }
 }
-

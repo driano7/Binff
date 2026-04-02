@@ -18,8 +18,8 @@ export function MdxArticle({ title, excerpt, html }: MdxArticleProps) {
         opacity={0.95}
       />
       <div className="relative space-y-5">
-        <h1 className="font-serif text-4xl leading-[0.96] tracking-tight text-card-foreground sm:text-5xl md:text-6xl">{title}</h1>
-        <p className="max-w-3xl text-base leading-8 text-muted-foreground md:text-lg">{excerpt}</p>
+        <h1 className="text-center font-serif text-4xl leading-[0.96] tracking-tight text-card-foreground sm:text-5xl md:text-6xl">{title}</h1>
+        <p className="mx-auto max-w-3xl text-center text-base leading-8 text-muted-foreground md:text-lg">{excerpt}</p>
 
         <div className="mt-8 space-y-6 text-base" dangerouslySetInnerHTML={{ __html: html }} />
       </div>
