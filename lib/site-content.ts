@@ -104,6 +104,7 @@ export type SiteCopy = {
   }
   footer: {
     note: string
+    credit: string
     rights: string
   }
 }
@@ -303,6 +304,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     footer: {
       note: "Bilingual web and mobile studio for Mexico and Canada.",
+      credit: "Made with <3 by Donovan Riaño.",
       rights: "All rights reserved.",
     },
   },
@@ -446,6 +448,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     footer: {
       note: "Studio bilingue web et mobile pour le Mexique et le Canada.",
+      credit: "Fait avec <3 par Donovan Riaño.",
       rights: "Tous droits réservés.",
     },
   },
@@ -589,6 +592,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
     },
     footer: {
       note: "Estudio bilingüe de web y mobile para México y Canadá.",
+      credit: "Hecho con <3 de Donovan Riaño.",
       rights: "Todos los derechos reservados.",
     },
   },

@@ -206,8 +206,8 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
   }, [cards])
 
   const layouts = useMemo<PeripheralLayout[]>(() => {
-    const gapX = isMobile ? 108 : 286
-    const midGapX = isMobile ? 126 : 376
+    const gapX = isMobile ? 88 : 230
+    const midGapX = isMobile ? 102 : 308
     const topY = isMobile ? -214 : -228
     const midY = isMobile ? -20 : -16
     const bottomY = isMobile ? 202 : 224
@@ -235,7 +235,7 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
   const spreadLong = isMobile ? 1.4 : 1.78
   const phoneXOffset = isMobile ? 58 : 168
   const phoneYOffset = isMobile ? lerp(175, -6, progressBoost) : lerp(165, -10, progressBoost)
-  const peripheralRightBias = isMobile ? -86 : -229
+  const peripheralRightBias = isMobile ? 13 : 34
 
   const cardByLayout = (id: PeripheralKey) => peripheralCards.find((card) => card.id === id) ?? peripheralCards[0]
 
@@ -354,8 +354,8 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
                   >
                     <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_10%,rgba(255,255,255,0.55),transparent_45%)] opacity-60 dark:opacity-25" />
                     <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/25 dark:from-black/25 dark:to-black/45" />
-                    <div className="relative flex h-full flex-col justify-between p-4 text-white">
-                      <div className="space-y-2">
+                    <div className="relative flex h-full flex-col justify-between px-4 pb-3 pt-6 text-white">
+                      <div className="mt-2 space-y-2">
                         <p className="text-[11px] font-semibold uppercase tracking-[0.28em] text-white/70">Banff Studio</p>
                         <h3 className="text-lg font-semibold leading-tight">{copy.title}</h3>
                         <p className="text-xs leading-5 text-white/68">
@@ -367,7 +367,7 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
                         </p>
                       </div>
 
-                      <div className="grid gap-2">
+                      <div className="grid gap-2 -mt-1">
                         {cards.slice(0, 3).map((card) => (
                           <div key={card.title} className="rounded-2xl border border-white/10 bg-white/8 px-3 py-2 backdrop-blur-sm">
                             <p className="text-[11px] font-semibold text-white">{card.title}</p>

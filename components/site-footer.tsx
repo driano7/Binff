@@ -72,6 +72,17 @@ export function SiteFooter({ locale }: SiteFooterProps) {
           })}
         </div>
 
+        <div className="flex justify-center">
+          <a
+            href="https://riano.netlify.app"
+            target="_blank"
+            rel="noreferrer"
+            className="text-xs font-medium text-muted-foreground transition-colors hover:text-[color:var(--accent)]"
+          >
+            {copy.footer.credit}
+          </a>
+        </div>
+
         <div className="flex flex-col gap-2 border-t border-black/5 pt-4 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p className="font-semibold text-foreground">{copy.brand.name}</p>
           <p>© 2026 {copy.footer.rights}</p>
