@@ -98,7 +98,7 @@ export function renderMdxToHtml(source: string) {
     }
 
     if (trimmed.startsWith("## ")) {
-      html.push(`<h2 class="mt-10 text-3xl font-semibold tracking-tight text-foreground">${renderInline(trimmed.slice(3))}</h2>`)
+      html.push(`<h2 class="mt-10 text-center text-3xl font-semibold tracking-tight text-foreground">${renderInline(trimmed.slice(3))}</h2>`)
       index += 1
       continue
     }

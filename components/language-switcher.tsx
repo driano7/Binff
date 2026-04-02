@@ -1,6 +1,6 @@
 "use client"
 
-import { Globe } from "lucide-react"
+import { Languages } from "lucide-react"
 import { usePathname } from "next/navigation"
 
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
@@ -9,9 +9,9 @@ import { resolveLocalePath } from "@/lib/navigation"
 import { locales, type Locale } from "@/lib/site-content"
 
 const LABELS: Record<Locale, string> = {
-  en: "English",
-  fr: "Français",
-  es: "Español",
+  en: "EN",
+  fr: "FR",
+  es: "ES",
 }
 
 type LanguageSwitcherProps = {
@@ -34,7 +34,7 @@ export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
           size="sm"
           className="h-9 rounded-full border-black/10 bg-white/86 px-3 text-xs font-semibold text-foreground shadow-[0_10px_26px_rgba(15,23,42,0.1)] backdrop-blur-2xl hover:bg-white dark:border-white/10 dark:bg-[rgba(8,10,18,0.9)] dark:text-white dark:shadow-[0_12px_34px_rgba(0,0,0,0.38)] dark:hover:bg-[rgba(12,16,24,0.95)]"
         >
-          <Globe className="h-4 w-4" />
+          <Languages className="h-4 w-4" />
           <span>{LABELS[locale]}</span>
         </Button>
       </DropdownMenuTrigger>

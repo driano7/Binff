@@ -86,7 +86,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
                     key={card.title}
                     className="rounded-[2rem] border border-border/70 bg-card/75 p-3 shadow-[0_10px_35px_-24px_rgba(2,6,23,0.55)] transition"
                   >
-                    <div className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-4 ${serviceContextSurfaces[cardIndex % serviceContextSurfaces.length]}`}>
+                    <div className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-4 text-center ${serviceContextSurfaces[cardIndex % serviceContextSurfaces.length]}`}>
                       <div className="absolute -right-8 -top-8 h-20 w-20 rounded-full bg-accent/20 blur-xl" />
                       <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
                       <div className="relative space-y-2">
@@ -120,7 +120,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
                   index === 1 ? "md:translate-y-2" : ""
                 }`}
               >
-                <div className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-4 ${serviceContextSurfaces[index % serviceContextSurfaces.length]}`}>
+                <div className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-4 text-center ${serviceContextSurfaces[index % serviceContextSurfaces.length]}`}>
                   <div className="absolute -right-8 -top-8 h-20 w-20 rounded-full bg-accent/20 blur-xl" />
                   <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
                   <div className="relative space-y-2">
@@ -152,7 +152,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
                   index === 1 ? "md:translate-y-2" : ""
                 }`}
               >
-                <div className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-4 ${serviceContextSurfaces[index % serviceContextSurfaces.length]}`}>
+                <div className={`relative h-full overflow-hidden rounded-[1.4rem] border border-border/70 bg-gradient-to-br p-4 text-center ${serviceContextSurfaces[index % serviceContextSurfaces.length]}`}>
                   <div className="absolute -right-8 -top-8 h-20 w-20 rounded-full bg-accent/20 blur-xl" />
                   <div className="absolute -bottom-8 -left-8 h-20 w-20 rounded-full bg-primary/20 blur-xl" />
                   <div className="relative space-y-2">
