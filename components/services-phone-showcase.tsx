@@ -233,7 +233,7 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
 
   const spreadMedium = isMobile ? 1.12 : 1.28
   const spreadLong = isMobile ? 1.4 : 1.78
-  const phoneXOffset = isMobile ? 84 : 168
+  const phoneXOffset = isMobile ? 100 : 168
   const phoneYOffset = isMobile ? lerp(175, -6, progressBoost) : lerp(165, -10, progressBoost)
   const peripheralRightBias = isMobile ? 13 : 34
 
