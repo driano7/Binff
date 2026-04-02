@@ -222,19 +222,20 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
   }, [isMobile])
 
   const sceneHeight = useMemo(() => {
-    const base = isMobile ? 640 : 780
+    const base = isMobile ? 620 : 748
     return Math.max(base, phoneFrame.height + (isMobile ? 128 : 168))
   }, [isMobile, phoneFrame.height])
 
   const scrollTrackHeight = useMemo(() => {
-    const minHeight = isMobile ? 780 : 900
+    const minHeight = isMobile ? 752 : 860
     return Math.max(minHeight, sceneHeight + (isMobile ? 100 : 132))
   }, [isMobile, sceneHeight])
 
   const spreadMedium = isMobile ? 1.12 : 1.28
   const spreadLong = isMobile ? 1.4 : 1.78
-  const phoneXOffset = isMobile ? 72 : 210
-  const peripheralRightBias = isMobile ? 108 : 286
+  const phoneXOffset = isMobile ? 58 : 168
+  const phoneYOffset = isMobile ? lerp(175, -6, progressBoost) : lerp(165, -10, progressBoost)
+  const peripheralRightBias = isMobile ? -86 : -229
 
   const cardByLayout = (id: PeripheralKey) => peripheralCards.find((card) => card.id === id) ?? peripheralCards[0]
 
@@ -307,7 +308,7 @@ export function ServicesPhoneShowcase({ locale, cards }: ServicesPhoneShowcasePr
               <div
                 className="absolute left-1/2 top-1/2 z-20 -translate-x-1/2 -translate-y-1/2"
                 style={{
-                  transform: `translate3d(calc(-50% + ${phoneXOffset}px), calc(-50% + ${lerp(195, 5, progressBoost)}px), 0) scale(${lerp(0.74, 1.02, progressBoost)})`,
+                  transform: `translate3d(calc(-50% + ${phoneXOffset}px), calc(-50% + ${phoneYOffset}px), 0) scale(${lerp(0.74, 1.02, progressBoost)})`,
                   width: phoneFrame.width,
                   height: phoneFrame.height,
                   transition: `transform 120ms ${EASE_OUT}`,
