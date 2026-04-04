@@ -95,10 +95,10 @@ export const metadata: Metadata = {
     locale: "en_US",
     images: [
       {
-        url: "/serene-nature-sharp.jpg",
+        url: "/opengraph-image",
         width: 1200,
         height: 630,
-        alt: `${SITE_NAME} homepage forest background`,
+        alt: `${SITE_NAME} logo preview`,
       },
     ],
   },
@@ -106,7 +106,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: SITE_NAME,
     description: SITE_DESCRIPTION,
-    images: ["/serene-nature-sharp.jpg"],
+    images: ["/opengraph-image"],
   },
 }
 

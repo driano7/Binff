@@ -1,12 +1,13 @@
 import { ImageResponse } from "next/og"
 
 import { getSiteUrl, SITE_DESCRIPTION, SITE_NAME } from "@/lib/seo"
+import BanffDark from "../BanffOscuro.jpeg"
 
 export const runtime = "edge"
 
 export default function OpenGraphImage() {
   const siteUrl = getSiteUrl()
-  const backgroundImage = `${siteUrl}/serene-nature-sharp.jpg`
+  const logoImage = BanffDark.src
 
   return new ImageResponse(
     (
@@ -25,7 +26,7 @@ export default function OpenGraphImage() {
         }}
       >
         <img
-          src={backgroundImage}
+          src={logoImage}
           alt=""
           width="1200"
           height="630"
@@ -35,15 +36,14 @@ export default function OpenGraphImage() {
             width: "100%",
             height: "100%",
             objectFit: "cover",
-            opacity: 0.28,
+            opacity: 0.18,
           }}
         />
         <div
           style={{
             position: "absolute",
             inset: 0,
-            background:
-              "linear-gradient(135deg, rgba(6,11,20,0.32) 0%, rgba(6,11,20,0.76) 48%, rgba(6,11,20,0.94) 100%)",
+            background: "linear-gradient(135deg, rgba(6,11,20,0.12) 0%, rgba(6,11,20,0.55) 48%, rgba(6,11,20,0.9) 100%)",
           }}
         />
         <div style={{ position: "relative", display: "flex", flexDirection: "column", gap: 20, maxWidth: 760 }}>

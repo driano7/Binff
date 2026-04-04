@@ -132,7 +132,7 @@ function AboutMapsSection() {
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">G maps</p>
               <h3 className="font-serif text-2xl leading-none tracking-tight text-card-foreground">Torre CN</h3>
             </div>
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 bg-background/80 text-lg text-muted-foreground transition-transform duration-300 group-open:rotate-180">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/40 bg-background/90 text-lg text-muted-foreground shadow-sm transition-transform duration-300 dark:border-white/50 dark:bg-black/40">
               ▾
             </span>
           </summary>
@@ -156,20 +156,30 @@ function AboutMapsSection() {
               <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">🍎 maps</p>
               <h3 className="font-serif text-2xl leading-none tracking-tight text-card-foreground">Apple Maps</h3>
             </div>
-            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-border/70 bg-background/80 text-lg text-muted-foreground transition-transform duration-300 group-open:rotate-180">
+            <span className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-black/40 bg-background/90 text-lg text-muted-foreground shadow-sm transition-transform duration-300 dark:border-white/50 dark:bg-black/40">
               ▾
             </span>
           </summary>
           <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-border/70 bg-background">
-            <div className="aspect-[4/3] w-full md:aspect-[16/9]">
-              <iframe
-                title="Apple Maps - Torre CN"
-                src="https://maps.apple.com/p/A5DNzKPa8Hbo19"
-                className="h-full w-full border-0"
-                loading="lazy"
-                allowFullScreen
-                referrerPolicy="no-referrer"
-              />
+            <div className="flex aspect-[4/3] w-full flex-col items-center justify-center gap-4 px-6 py-8 text-center md:aspect-[16/9]">
+              <div className="space-y-2">
+                <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">Apple Maps</p>
+                <p className="max-w-md text-sm leading-7 text-muted-foreground">
+                  {locale === "es"
+                    ? "Apple Maps no permite incrustar esta vista de forma estable aquí, así que la abrimos directo en su app o web."
+                    : locale === "fr"
+                      ? "Apple Maps ne permet pas d’intégrer cette vue ici de manière fiable, alors nous l’ouvrons directement dans l’app ou sur le web."
+                      : "Apple Maps does not allow this view to be embedded reliably here, so we open it directly in the app or on the web."}
+                </p>
+              </div>
+              <a
+                href="https://maps.apple/p/Gkk_E15DEXi7Ax"
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center gap-2 rounded-full border border-border/70 bg-card px-4 py-2 text-sm font-semibold text-card-foreground transition hover:border-[color:var(--accent)]/30 hover:text-[color:var(--accent)]"
+              >
+                {locale === "es" ? "Abrir en Apple Maps" : locale === "fr" ? "Ouvrir dans Plans" : "Open in Apple Maps"}
+              </a>
             </div>
           </div>
         </details>
