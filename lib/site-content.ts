@@ -374,7 +374,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           facts: [
             { label: "Idéal pour", value: "Tester une nouvelle idée." },
             { label: "Pages", value: "1 (Landing Page)." },
-            { label: "Avis", value: "Non." },
+            { label: "Révisions", value: "Non." },
             { label: "SEO", value: "No SEO." },
             { label: "Révisions", value: "2 rounds." },
           ],
@@ -528,7 +528,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           facts: [
             { label: "Ideal para", value: "Probar una nueva idea." },
             { label: "Páginas", value: "1 (Landing Page)." },
-            { label: "Reseñas", value: "No." },
+            { label: "Revisiones", value: "No." },
             { label: "SEO", value: "No SEO." },
             { label: "Revisiones", value: "2 rounds." },
           ],
@@ -543,7 +543,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           facts: [
             { label: "Ideal para", value: "Escalar un negocio real." },
             { label: "Páginas", value: "5 a 10 subpáginas." },
-            { label: "Reseñas", value: "3 rondas." },
+            { label: "Revisiones", value: "3 rondas." },
             { label: "SEO", value: "Basic Indexing." },
           ],
           includes: ["Máximo 15 fotos", "2 idiomas (inglés, francés o español)", "5 POC/CTA", "Animaciones profesionales"],
@@ -557,7 +557,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
           facts: [
             { label: "Ideal para", value: "Otro tipo de sitio." },
             { label: "Páginas", value: "Personalizado." },
-            { label: "Reseñas", value: "Bajo solicitud." },
+            { label: "Revisiones", value: "Bajo solicitud." },
             { label: "SEO", value: "Custom." },
           ],
           includes: ["Discovery call", "Scope definition", "Quote by email or WhatsApp"],
