@@ -56,10 +56,10 @@ export function AboutPageContent({ locale }: AboutPageContentProps) {
     <main className="mx-auto w-full max-w-6xl px-4 pb-12 pt-28 sm:px-6 lg:pt-32">
       <ScrollReveal direction="up" once>
         <div className="mx-auto max-w-3xl text-center text-white">
-          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-white/70">
+          <p className="text-balance font-serif text-3xl leading-[1.02] tracking-tight text-white sm:text-4xl md:text-5xl">
             {copy.title}
           </p>
-          <p className="mt-4 text-balance font-serif text-3xl leading-[1.02] tracking-tight text-white sm:text-4xl md:text-5xl">
+          <p className="mt-4 text-sm leading-7 text-white/80 md:text-base">
             {copy.description}
           </p>
         </div>
