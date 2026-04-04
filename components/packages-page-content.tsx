@@ -26,6 +26,23 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
   const mainEmail = copy.contact.emails[0]
   const whatsappHref = `https://wa.me/${copy.contact.whatsapp.replace(/[^+\d]/g, "").replace(/^\+/, "")}`
 
+  const contactActions = (
+    <div className="flex flex-wrap gap-2 pt-1">
+      <Button asChild size="sm" variant="outline" className="rounded-full">
+        <a href={`mailto:${mainEmail}`}>
+          <Mail className="h-4 w-4" />
+          Email
+        </a>
+      </Button>
+      <Button asChild size="sm" className="rounded-full">
+        <a href={whatsappHref} target="_blank" rel="noreferrer">
+          <MessageCircleMore className="h-4 w-4" />
+          WhatsApp
+        </a>
+      </Button>
+    </div>
+  )
+
   return (
     <main id="packages-scope" className="mx-auto w-full max-w-6xl px-4 pb-12 pt-32 sm:px-6 lg:pt-36">
       <HeadingTypewriter scopeSelector="#packages-scope" />
@@ -139,23 +156,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
                     </div>
 
                     <p className="pt-1 text-xs leading-relaxed text-muted-foreground">{card.note}</p>
-
-                    {isQuoteCard ? (
-                      <div className="flex flex-wrap gap-2 pt-1">
-                        <Button asChild size="sm" className="rounded-full">
-                          <a href={`mailto:${mainEmail}`}>
-                            <Mail className="h-4 w-4" />
-                            {locale === "es" ? "Email (main)" : locale === "fr" ? "Email (main)" : "Email (main)"}
-                          </a>
-                        </Button>
-                        <Button asChild variant="outline" size="sm" className="rounded-full">
-                          <a href={whatsappHref} target="_blank" rel="noreferrer">
-                            <MessageCircleMore className="h-4 w-4" />
-                            WhatsApp
-                          </a>
-                        </Button>
-                      </div>
-                    ) : null}
+                    {contactActions}
                   </div>
                 </div>
               </article>
@@ -180,17 +181,17 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
               </h3>
               <p className="text-sm leading-7 text-muted-foreground md:text-base">
                 {locale === "es"
-                  ? "Escríbenos por email principal o WhatsApp y te pasamos más información con el scope adecuado."
+                  ? "Escríbenos por email o WhatsApp y te pasamos más información con el scope adecuado."
                   : locale === "fr"
-                    ? "Écrivez-nous par email principal ou WhatsApp et nous vous enverrons plus d’informations avec le bon scope."
-                    : "Write to us by main email or WhatsApp and we will send more details with the right scope."}
+                    ? "Écrivez-nous par email ou WhatsApp et nous vous enverrons plus d’informations avec le bon scope."
+                    : "Write to us by email or WhatsApp and we will send more details with the right scope."}
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
               <Button asChild variant="outline" className="rounded-full">
                 <a href={`mailto:${mainEmail}`}>
                   <Mail className="h-4 w-4" />
-                  Email (main)
+                  Email
                 </a>
               </Button>
               <Button asChild className="rounded-full">
