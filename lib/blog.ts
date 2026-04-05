@@ -3,6 +3,7 @@ import path from "node:path"
 
 export { renderMdxToHtml } from "@/lib/mdx"
 import { parseFrontmatter } from "@/lib/mdx"
+import type { Locale } from "@/lib/site-content"
 
 export type BlogMeta = {
   slug: string
@@ -20,6 +21,14 @@ export type BlogPost = BlogMeta & {
 
 const BLOG_DIR = path.join(process.cwd(), "content", "blog")
 
+function getLocalizedBlogFilePath(slug: string, locale?: Locale) {
+  if (locale && locale !== "en") {
+    return path.join(BLOG_DIR, locale, `${slug}.mdx`)
+  }
+
+  return path.join(BLOG_DIR, `${slug}.mdx`)
+}
+
 export function getAllBlogPosts(): BlogMeta[] {
   if (!fs.existsSync(BLOG_DIR)) return []
 
@@ -31,8 +40,9 @@ export function getAllBlogPosts(): BlogMeta[] {
     .sort((a, b) => (a.date < b.date ? 1 : -1))
 }
 
-export function getBlogPostBySlug(slug: string): BlogPost | null {
-  const filePath = path.join(BLOG_DIR, `${slug}.mdx`)
+export function getBlogPostBySlug(slug: string, locale?: Locale): BlogPost | null {
+  const localizedPath = getLocalizedBlogFilePath(slug, locale)
+  const filePath = fs.existsSync(localizedPath) ? localizedPath : path.join(BLOG_DIR, `${slug}.mdx`)
   if (!fs.existsSync(filePath)) return null
 
   const raw = fs.readFileSync(filePath, "utf8")

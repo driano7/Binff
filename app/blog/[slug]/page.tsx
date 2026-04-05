@@ -6,6 +6,7 @@ import { HeadingTypewriter } from "@/components/heading-typewriter"
 import { BlogArticle } from "@/components/blog-article"
 import { ScrollReveal } from "@/components/scroll-reveal"
 import { Button } from "@/components/ui/button"
+import { getLocaleFromCookies } from "@/lib/locale"
 import { getBlogPostBySlug, getAllBlogPosts, renderMdxToHtml } from "@/lib/blog"
 
 type PageProps = {
@@ -18,9 +19,10 @@ export function generateStaticParams() {
   return getAllBlogPosts().map((post) => ({ slug: post.slug }))
 }
 
-export default function BlogPostPage({ params }: PageProps) {
+export default async function BlogPostPage({ params }: PageProps) {
   const { slug } = params
-  const post = getBlogPostBySlug(slug)
+  const locale = await getLocaleFromCookies()
+  const post = getBlogPostBySlug(slug, locale)
 
   if (!post) notFound()
 
