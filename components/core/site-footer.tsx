@@ -8,13 +8,16 @@ type SiteFooterProps = {
   locale: Locale
 }
 
+// MIXED: footer content is client-facing, while the contact chip system is reusable chrome.
 export function SiteFooter({ locale }: SiteFooterProps) {
+  // CLIENTE_OWNED: footer contact data and outbound profiles are sourced from the site copy model.
   const copy = getSiteCopy(locale)
   const hasMultipleTelegrams = copy.contact.telegrams.length > 1
   const hasMultipleEmails = copy.contact.emails.length > 1
   const normalizeExternalHref = (href: string) => (href.startsWith("http") ? href : `https://${href}`)
   const digitsOnlyPhone = copy.contact.phone.replace(/[^+\d]/g, "")
   const whatsappHref = `https://wa.me/${copy.contact.whatsapp.replace(/[^+\d]/g, "").replace(/^\+/, "")}`
+  // AGENCY_OWNED: reusable contact-chip layout and icon treatment.
   const contactItems = [
     {
       href: `mailto:${copy.contact.emails[0]}`,
@@ -71,6 +74,7 @@ export function SiteFooter({ locale }: SiteFooterProps) {
   return (
     <footer className="relative mt-8 border-t border-black/10 bg-white/75 backdrop-blur-xl dark:bg-black/40">
       <div className="mx-auto flex w-full max-w-6xl flex-col gap-4 px-4 py-8 sm:px-6">
+        {/* AGENCY_OWNED: footer chrome is reusable; the visible labels are client-owned copy. */}
         <div className="flex flex-wrap items-center justify-center gap-2 text-xs font-semibold">
           {contactItems.map((item) => {
             const Icon = item.icon

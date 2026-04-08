@@ -3,7 +3,7 @@
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { BookOpenText, BriefcaseBusiness, Menu, PanelsTopLeft, PocketKnife, UserRound } from "lucide-react"
+import { BookOpenText, BriefcaseBusiness, Menu, PanelsTopLeft, PocketKnife, UserRound, type LucideIcon } from "lucide-react"
 
 import { localizedSectionHref } from "@/lib/navigation"
 import { cn } from "@/lib/utils"
@@ -21,9 +21,11 @@ type MobileDockProps = {
 type DockItem = {
   href: string
   label: string
-  icon: typeof Home
+  icon: LucideIcon
 }
 
+// AGENCY_OWNED: mobile navigation dock and collapse behavior.
+// This is a reusable UX pattern that sits alongside the global header shell.
 export function MobileDock({
   locale,
   aboutLabel,

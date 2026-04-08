@@ -1,11 +1,12 @@
 import Image from "next/image"
 
-import { ScrollReveal } from "@/components/scroll-reveal"
-import type { Locale } from "@/lib/site-content"
+import { ScrollReveal } from "@/components/core/scroll-reveal"
+import type { Locale } from "@/content/client/site-content"
 
-import BanffLight from "../BanffClaro.jpeg"
-import BanffDark from "../BanffOscuro.jpeg"
+import BanffLight from "../../BanffClaro.jpeg"
+import BanffDark from "../../BanffOscuro.jpeg"
 
+// MIXED: copy and brand assets are client-owned; layout, motion, and section composition are reusable agency UI.
 const aboutCopy = {
   en: {
     title: "About Us",
@@ -48,6 +49,7 @@ const aboutCopy = {
   },
 } as const
 
+// CLIENTE_OWNED: these narrative blocks are site/brand messaging.
 const whyMattersCopy = {
   en: {
     title: "Why it matters",
@@ -69,6 +71,7 @@ const whyMattersCopy = {
   },
 } as const
 
+// AGENCY_OWNED: reusable story structure and section sequencing for the about page.
 const howWeWorkCopy = {
   en: {
     title: "How we work",
@@ -136,6 +139,7 @@ type AboutPageContentProps = {
 function AboutIntroSection({ title, description }: Pick<(typeof aboutCopy)["en"], "title" | "description">) {
   return (
     <ScrollReveal direction="up">
+      {/* CLIENTE_OWNED: localized about copy is site content. */}
       <div className="mx-auto max-w-3xl text-center text-black dark:text-white">
         <p className="text-balance font-serif text-3xl leading-[1.02] tracking-tight text-black sm:text-4xl md:text-5xl dark:text-white">
           {title}
@@ -152,6 +156,7 @@ function AboutFeaturePanel({
 }: Pick<(typeof aboutCopy)["en"], "description" | "points">) {
   return (
     <ScrollReveal direction="up" className="mt-8">
+      {/* AGENCY_OWNED: reusable feature-panel layout and motion. */}
       <section className="grid gap-8 rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground shadow-[0_18px_55px_-28px_rgba(2,6,23,0.45)] dark:bg-card/70 lg:grid-cols-[1.1fr_minmax(280px,0.9fr)] lg:p-8">
         <ScrollReveal direction="down" delay={0.24} className="flex flex-col justify-center text-left">
           <p className="text-sm leading-7 text-card-foreground/90 md:text-base dark:text-card-foreground/85">{description}</p>
@@ -174,6 +179,7 @@ function AboutFeaturePanel({
         <ScrollReveal direction="up" delay={0.36} className="relative flex items-center justify-center">
           <div className="absolute inset-0 rounded-[2rem] bg-white/10 blur-3xl dark:bg-black/25" />
           <div className="relative w-full p-2 sm:p-4">
+            {/* CLIENTE_OWNED: studio brand images / identity assets. Confirm authorship and transfer terms in the contract. */}
             <Image src={BanffLight} alt="Banff Studio logo" priority className="block h-auto w-full dark:hidden" />
             <Image src={BanffDark} alt="Banff Studio logo" priority className="hidden h-auto w-full dark:block" />
           </div>
@@ -186,6 +192,7 @@ function AboutFeaturePanel({
 function AboutMapsSection({ locale }: { locale: Locale }) {
   return (
     <ScrollReveal direction="up" className="mt-8">
+      {/* THIRD_PARTY_INTEGRATION: Google Maps embed is an external provider surface. */}
       <section className="space-y-5">
         <div className="mx-auto max-w-3xl text-center">
           <p className="mt-3 text-sm leading-7 text-muted-foreground md:text-base">
@@ -212,6 +219,7 @@ function AboutMapsSection({ locale }: { locale: Locale }) {
               </span>
             </summary>
             <div className="mt-5 overflow-hidden rounded-[1.6rem] border border-border/70 bg-background">
+              {/* THIRD_PARTY_INTEGRATION: Google Maps embed. No custom maps backend or API layer exists in this repo. */}
               <div className="aspect-[4/3] w-full md:aspect-[16/9]">
                 <iframe
                   title="Google Maps - Torre CN"
@@ -273,10 +281,12 @@ export function AboutPageContent({ locale }: AboutPageContentProps) {
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 pb-12 pt-28 sm:px-6 lg:pt-32">
+      {/* CLIENTE_OWNED: visible about copy is site content. */}
       <AboutIntroSection title={copy.title} description={copy.description} />
       <AboutFeaturePanel description={copy.panelDescription} points={copy.points} />
       <AboutHowWeWorkSection locale={locale} />
 
+      {/* AGENCY_OWNED: reusable narrative section, reveal timing, and visual hierarchy. */}
       <ScrollReveal direction="up" className="mt-8">
         <section className="relative isolate overflow-hidden px-2 py-10 text-card-foreground sm:px-4 md:px-6 md:py-14">
           <div className="relative space-y-6">

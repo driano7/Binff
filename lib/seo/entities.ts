@@ -11,6 +11,8 @@ import type {
 import { buildBreadcrumbList } from "@/lib/seo/buildBreadcrumbs"
 import { buildCanonicalUrl } from "@/lib/seo/url"
 
+// AGENCY_OWNED: structured-data entity builders.
+// These helpers are framework-level SEO primitives and should remain reusable in a private agency package.
 function organizationId(config: SeoConfig) {
   return `${new URL(config.site.siteUrl).origin}#organization`
 }
@@ -239,4 +241,3 @@ export function buildLocalBusinessEntity(
 }
 
 export { buildBreadcrumbList }
-

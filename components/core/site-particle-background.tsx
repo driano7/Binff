@@ -1,10 +1,11 @@
-import { DotBackground } from "@/components/dot-background"
+import { DotBackground } from "@/components/core/dot-background"
 import type { ThemeMode } from "@/lib/theme"
 
 type SiteParticleBackgroundProps = {
   theme: ThemeMode
 }
 
+// AGENCY_OWNED: theme-aware decorative background wrapper.
 export function SiteParticleBackground({ theme }: SiteParticleBackgroundProps) {
   const isDark = theme === "dark"
 

@@ -1,9 +1,9 @@
-import { HeadingTypewriter } from "@/components/heading-typewriter"
-import { ScrollReveal } from "@/components/scroll-reveal"
-import { MdxArticle } from "@/components/mdx-article"
+import { HeadingTypewriter } from "@/components/core/heading-typewriter"
+import { ScrollReveal } from "@/components/core/scroll-reveal"
+import { MdxArticle } from "@/components/core/mdx-article"
 import { ServicesPhoneShowcase } from "@/components/services-phone-showcase"
 import { readLocalizedMdx, renderMdxToHtml } from "@/lib/mdx"
-import { getSiteCopy, type Locale } from "@/lib/site-content"
+import { getSiteCopy, type Locale } from "@/content/client/site-content"
 
 const serviceContextSurfaces = [
   "from-accent/20 via-background to-primary/10",
@@ -22,7 +22,9 @@ type ServicesPageContentProps = {
   locale: Locale
 }
 
+// MIXED: localized service copy comes from the client/site, while the surface system and motion are reusable agency UI.
 export function ServicesPageContent({ locale }: ServicesPageContentProps) {
+  // CLIENTE_OWNED: service descriptions and cards come from the site's editorial model.
   const copy = getSiteCopy(locale)
   const doc = readLocalizedMdx("services", locale) ?? readLocalizedMdx("services", "en")
   const mobileContextCards = copy.services.cards.slice(0, 4)
@@ -39,11 +41,14 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
       </ScrollReveal>
 
       <div className="mt-14 md:mt-16">
+        {/* AGENCY_OWNED: reusable service showcase for mobile-first presentation. */}
         <ServicesPhoneShowcase locale={locale} cards={copy.services.cards} />
       </div>
 
+      {/* MIXED: the copy is client-owned, while layout, surfaces, and card choreography are reusable. */}
       <section className="mt-10 grid gap-5 rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground dark:bg-card/70 md:grid-cols-[1.05fr_0.95fr] md:p-6">
         <ScrollReveal direction="up" className="space-y-4 md:flex md:h-full md:flex-col md:justify-center">
+          {/* CLIENTE_OWNED: localized service positioning and marketing copy. */}
           <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">
             {locale === "es" ? "Más contexto" : locale === "fr" ? "Plus de contexte" : "More context"}
           </p>
@@ -79,6 +84,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={0.16} className="space-y-3">
+          {/* AGENCY_OWNED: mobile card rhythm and animation pattern. */}
           <div className="grid gap-3 md:hidden">
             {mobileContextCards.map((card, index) => {
               const cardIndex = index + 1
@@ -115,6 +121,7 @@ export function ServicesPageContent({ locale }: ServicesPageContentProps) {
             })}
           </div>
 
+          {/* AGENCY_OWNED: desktop grid variant of the same reusable presentation system. */}
           <div className="hidden md:grid gap-3 md:grid-cols-2">
             {desktopContextCards.map((card, index) => {
               const cardIndex = index + 1

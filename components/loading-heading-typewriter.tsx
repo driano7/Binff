@@ -4,6 +4,7 @@ import { useEffect } from "react"
 
 const HEADING_SELECTOR = "h1, h2, h3, h4, h5, h6"
 
+// AGENCY_OWNED: loading-state variant of the reusable typewriter heading treatment.
 function prepareLoadingHeading(heading: HTMLElement) {
   const text = heading.textContent ?? ""
   if (!text.trim()) return false

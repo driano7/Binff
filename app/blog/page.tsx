@@ -1,9 +1,9 @@
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 
-import { HeadingTypewriter } from "@/components/heading-typewriter"
-import { BlogArticle } from "@/components/blog-article"
-import { ScrollReveal } from "@/components/scroll-reveal"
+import { HeadingTypewriter } from "@/components/core/heading-typewriter"
+import { BlogArticle } from "@/components/core/blog-article"
+import { ScrollReveal } from "@/components/core/scroll-reveal"
 import { Button } from "@/components/ui/button"
 import { getLocaleFromCookies } from "@/lib/locale"
 import { renderMdxToHtml } from "@/lib/blog"

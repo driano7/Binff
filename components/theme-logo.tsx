@@ -3,6 +3,7 @@
 import Image from "next/image"
 import { useTheme } from "next-themes"
 
+// CLIENTE_OWNED: logo asset swap is brand-specific; the theme detection is reusable but the artwork belongs to the site identity.
 export function ThemeLogo() {
   const { resolvedTheme } = useTheme()
   const isDarkMode = resolvedTheme === "dark"
@@ -22,4 +23,3 @@ export function ThemeLogo() {
     </span>
   )
 }
-

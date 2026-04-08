@@ -1,6 +1,6 @@
 import { ReactNode } from "react"
 
-import { DotBackground } from "@/components/dot-background"
+import { DotBackground } from "@/components/core/dot-background"
 import { cn } from "@/lib/utils"
 
 type SectionShellProps = {

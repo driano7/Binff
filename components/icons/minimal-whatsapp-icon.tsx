@@ -12,6 +12,7 @@ const baseProps: Partial<IconProps> = {
   strokeLinejoin: "round",
 }
 
+// AGENCY_OWNED: lightweight reusable icon component for the contact surface.
 export function MinimalWhatsappIcon(props: IconProps) {
   return (
     <svg viewBox="0 0 24 24" aria-hidden="true" {...baseProps} {...props}>

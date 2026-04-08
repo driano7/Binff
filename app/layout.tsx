@@ -2,11 +2,11 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Fraunces, Inter } from "next/font/google"
 
-import { SiteFooter } from "@/components/site-footer"
-import { SiteHeader } from "@/components/site-header"
-import { SiteParticleBackground } from "@/components/site-particle-background"
+import { SiteFooter } from "@/components/core/site-footer"
+import { SiteHeader } from "@/components/core/site-header"
+import { SiteParticleBackground } from "@/components/core/site-particle-background"
 import { Seo } from "@/components/seo/Seo"
-import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeProvider } from "@/components/core/theme-provider"
 import { getLocaleFromCookies } from "@/lib/locale"
 import {
   buildLayoutMetadata,
@@ -17,6 +17,8 @@ import {
 import { getThemeFromRequest } from "@/lib/theme"
 import "./globals.css"
 
+// AGENCY_OWNED: root shell wiring for SEO, theme, locale, and global chrome.
+// Client-specific copy/assets flow through the site-content and page components below.
 const fraunces = Fraunces({
   subsets: ["latin"],
   variable: "--font-fraunces",

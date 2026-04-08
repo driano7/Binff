@@ -9,7 +9,9 @@ import { buildBreadcrumbList, buildPageMetadata, seoConfig } from "@/lib/seo"
 import { getLocaleFromCookies } from "@/lib/locale"
 import { getSiteCopy } from "@/lib/site-content"
 
+// MIXED: home page uses reusable SEO/layout primitives and client-owned brand copy/hero assets.
 export function generateMetadata(): Metadata {
+  // AGENCY_OWNED: metadata builder, canonical URLs, and social previews are reusable SEO primitives.
   return buildPageMetadata(seoConfig, {
     title: seoConfig.brand.brandName,
     description: seoConfig.brand.brandDescription,
@@ -33,8 +35,10 @@ export function generateMetadata(): Metadata {
 }
 
 export default async function Home() {
+  // CLIENTE_OWNED: hero copy and background image are brand-facing site content.
   const locale = await getLocaleFromCookies()
   const copy = getSiteCopy(locale)
+  // AGENCY_OWNED: breadcrumb entity generation is reusable SEO infrastructure.
   const entities = buildBreadcrumbList([{ name: "Inicio", path: "/" }], seoConfig)
 
   return (
@@ -85,4 +89,3 @@ export default async function Home() {
     </main>
   )
 }
-

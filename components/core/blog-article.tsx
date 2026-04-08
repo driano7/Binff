@@ -1,4 +1,4 @@
-import { DotBackground } from "@/components/dot-background"
+import { DotBackground } from "@/components/core/dot-background"
 
 type BlogArticleProps = {
   title: string
@@ -6,6 +6,7 @@ type BlogArticleProps = {
   html: string
 }
 
+// AGENCY_OWNED: reusable blog/article presentation shell.
 export function BlogArticle({ title, excerpt, html }: BlogArticleProps) {
   return (
     <article className="relative isolate overflow-hidden px-2 py-10 text-card-foreground sm:px-4 md:px-6 md:py-14">

@@ -2,6 +2,8 @@ import { NextResponse, type NextRequest } from "next/server"
 
 import { locales } from "@/lib/site-content"
 
+// AGENCY_OWNED: request middleware that persists locale/theme hints in cookies.
+// No client data processing happens here; it only keeps the UI state consistent.
 function detectLocale(acceptLanguage: string | null | undefined) {
   const header = acceptLanguage ?? ""
   const preferredLocales = header

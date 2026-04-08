@@ -10,6 +10,8 @@ import type {
 } from "@/lib/seo/types"
 import { buildCanonicalUrl, buildMetadataBaseUrl } from "@/lib/seo/url"
 
+// AGENCY_OWNED: metadata builder used across pages and projects.
+// Keep this reusable so client content can plug into the same SEO surface.
 function normalizeOpenGraphImages(images?: SeoOpenGraphImage[]) {
   return images?.map((image) => ({
     url: image.url,
@@ -127,4 +129,3 @@ export function buildPageMetadata(
     },
   }
 }
-

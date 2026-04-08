@@ -18,6 +18,8 @@ type ServicesPhoneShowcaseProps = {
   cards: ServiceCard[]
 }
 
+// AGENCY_OWNED: high-value showcase component that turns service copy into an interactive product-style scene.
+// The labels are site content, but the motion/layout system is reusable agency UI.
 type PeripheralKey = "top-left" | "top-right" | "mid-left" | "mid-right" | "bottom-center"
 
 type PeripheralCard = {

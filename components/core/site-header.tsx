@@ -4,9 +4,9 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { Home, Mail, Phone } from "lucide-react"
 
-import { LanguageSwitcher } from "@/components/language-switcher"
-import { MobileDock } from "@/components/mobile-dock"
-import { ThemeSwitcher } from "@/components/theme-switcher"
+import { LanguageSwitcher } from "@/components/core/language-switcher"
+import { MobileDock } from "@/components/core/mobile-dock"
+import { ThemeSwitcher } from "@/components/core/theme-switcher"
 import { localizedSectionHref } from "@/lib/navigation"
 import { cn } from "@/lib/utils"
 import { getSiteCopy, type Locale } from "@/lib/site-content"
@@ -15,7 +15,9 @@ type SiteHeaderProps = {
   locale: Locale
 }
 
+// AGENCY_OWNED: reusable global header shell with desktop nav, contact shortcuts, language switcher, and theme switcher.
 export function SiteHeader({ locale }: SiteHeaderProps) {
+  // CLIENTE_OWNED: brand name and navigation labels are sourced from the site copy model.
   const pathname = usePathname()
   const copy = getSiteCopy(locale)
 
@@ -29,6 +31,7 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
 
   return (
     <>
+      {/* AGENCY_OWNED: global header chrome, navigation motion, and mobile dock behavior. */}
       <div className="pointer-events-none fixed inset-x-0 top-4 z-50 flex justify-center px-4 sm:px-6">
         <header className="pointer-events-auto relative flex w-full max-w-[1180px] items-center justify-between gap-2 rounded-3xl border px-3 py-3 text-sm font-semibold shadow-2xl transition-all duration-500 backdrop-blur-md text-gray-900 dark:text-white border-black/5 bg-white/80 dark:border-white/10 dark:bg-black/60 sm:px-4">
           <Link href="/" className="flex min-w-0 items-center gap-2 leading-tight">

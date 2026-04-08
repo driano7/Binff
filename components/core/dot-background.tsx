@@ -24,6 +24,8 @@ type Dot = {
   color: string
 }
 
+// AGENCY_OWNED: canvas-based ambient background primitive.
+// This is part of the site’s reusable motion system, not a business feature.
 export function DotBackground({
   className,
   quantity = 96,
@@ -115,4 +117,3 @@ export function DotBackground({
     </div>
   )
 }
-

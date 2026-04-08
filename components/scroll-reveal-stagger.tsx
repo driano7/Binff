@@ -10,6 +10,7 @@ type ScrollRevealStaggerProps = {
   itemClassName?: string
 }
 
+// AGENCY_OWNED: staggered reveal utility for long card lists and grouped content blocks.
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
 
 export function ScrollRevealStagger({ children, className, itemClassName }: ScrollRevealStaggerProps) {
@@ -72,4 +73,3 @@ export function ScrollRevealStagger({ children, className, itemClassName }: Scro
     </div>
   )
 }
-

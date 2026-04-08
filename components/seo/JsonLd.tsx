@@ -6,6 +6,7 @@ interface JsonLdProps {
   id?: string
 }
 
+// AGENCY_OWNED: generic JSON-LD script injector.
 export function JsonLd({ data, id }: JsonLdProps) {
   const blocks = normalizeJsonLdInput(data)
 
@@ -22,4 +23,3 @@ export function JsonLd({ data, id }: JsonLdProps) {
     </>
   )
 }
-

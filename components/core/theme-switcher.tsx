@@ -4,6 +4,8 @@ import * as React from "react"
 import { Moon, SunMedium } from "lucide-react"
 import { useTheme } from "next-themes"
 
+// AGENCY_OWNED: theme toggle with custom transition choreography.
+// The animation is part of the reusable site chrome; the cookie only stores the user's preference.
 export function ThemeSwitcher() {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = React.useState(false)

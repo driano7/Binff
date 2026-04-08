@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation"
 
-import { PackagesPageContent } from "@/components/packages-page-content"
+import { PackagesPageContent } from "@/components/client/packages-page-content"
 import { locales, type Locale } from "@/lib/site-content"
 
 type LocalePageProps = {

@@ -25,6 +25,8 @@ type LanguageSwitcherProps = {
   locale: Locale
 }
 
+// AGENCY_OWNED: client-side locale switcher.
+// It persists the preference in a cookie and only updates navigation state; no third-party service is involved.
 export function LanguageSwitcher({ locale }: LanguageSwitcherProps) {
   const pathname = usePathname()
 

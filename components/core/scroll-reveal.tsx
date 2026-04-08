@@ -12,6 +12,8 @@ type ScrollRevealProps = {
   once?: boolean
 }
 
+// AGENCY_OWNED: reusable reveal-on-scroll motion primitive.
+// Keep this isolated so pages can opt into the same motion language without duplicating observer logic.
 const DIRECTION_MAP = {
   up: { x: 0, y: 48 },
   down: { x: 0, y: -48 },

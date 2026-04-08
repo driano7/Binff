@@ -2,6 +2,19 @@
 
 Banff Studio is a website-first studio focused on Mexico and Canada. The site is built around clear UX/UI, bilingual and multilingual delivery, SEO, practical content support, and lightweight marketing when a project needs it. AI, automation, Web3, and mobile apps remain available as selective capabilities and can be quoted separately when needed.
 
+## Repository Structure
+
+- `content/pages/`: client-owned localized MDX content.
+- `content/blog/`: client-owned editorial articles.
+- `content/client/site-content.ts`: client-owned site copy model and locale data.
+- `components/client/`: client-facing page compositions and portfolio/about/services copy shells.
+- `components/core/`: reusable agency chrome, navigation, theme, and article shells.
+- `lib/core/`: reusable agency helpers for locale, theme, navigation, blog, and MDX rendering.
+- `lib/seo/`: reusable SEO, structured data, and metadata helpers.
+- `components/ui/`: reusable UI primitives.
+- `components/icons/`: reusable icon helpers.
+- `public/`: brand and media assets used by the site.
+
 This repository was forked from:
 https://github.com/Chatbase-co/nextjs-marketplace-template
 
@@ -81,3 +94,4 @@ npm run build
 - Default theme: Dark.
 - The site supports language switching between English, French, and Spanish.
 - The portfolio, services, packages, blog, and contact pages are all tailored to the studio’s website-first positioning.
+- Reusable core logic lives under `components/core/` and `lib/core/`; client content lives under `content/` and `components/client/`.

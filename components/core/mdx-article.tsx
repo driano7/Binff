@@ -1,4 +1,4 @@
-import { DotBackground } from "@/components/dot-background"
+import { DotBackground } from "@/components/core/dot-background"
 
 type MdxArticleProps = {
   title: string
@@ -6,6 +6,7 @@ type MdxArticleProps = {
   html: string
 }
 
+// AGENCY_OWNED: reusable article shell for rendered MDX pages.
 export function MdxArticle({ title, excerpt, html }: MdxArticleProps) {
   return (
     <section className="relative isolate overflow-hidden px-2 py-10 text-card-foreground sm:px-4 md:px-6 md:py-14">

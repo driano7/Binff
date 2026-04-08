@@ -1,10 +1,10 @@
 import { ArrowUpRight, CheckCircle2, LayoutGrid, Mail, RefreshCw, Search, Target, XCircle } from "lucide-react"
 
-import { HeadingTypewriter } from "@/components/heading-typewriter"
+import { HeadingTypewriter } from "@/components/core/heading-typewriter"
 import { MinimalWhatsappIcon } from "@/components/icons/minimal-whatsapp-icon"
-import { ScrollReveal } from "@/components/scroll-reveal"
+import { ScrollReveal } from "@/components/core/scroll-reveal"
 import { Button } from "@/components/ui/button"
-import { getSiteCopy, type Locale } from "@/lib/site-content"
+import { getSiteCopy, type Locale } from "@/content/client/site-content"
 
 const packageSurfaces = [
   "from-accent/20 via-background to-primary/10",
@@ -24,12 +24,15 @@ type PackagesPageContentProps = {
   locale: Locale
 }
 
+// MIXED: package pricing / scope copy is client-facing content; the card system and interaction pattern are reusable agency UI.
 export function PackagesPageContent({ locale }: PackagesPageContentProps) {
+  // CLIENTE_OWNED: pricing, scope language, and contact wording come from the site copy model.
   const copy = getSiteCopy(locale)
   const mainEmail = copy.contact.emails[0]
   const whatsappHref = `https://wa.me/${copy.contact.whatsapp.replace(/[^+\d]/g, "").replace(/^\+/, "")}`
   const visiblePackages = copy.packages.cards.slice(0, 2)
 
+  // AGENCY_OWNED: reusable contact CTA block shared across package cards and quote prompts.
   const contactActions = (
     <div className="flex flex-wrap gap-2 pt-1">
       <Button asChild size="sm" variant="outline" className="rounded-full">
@@ -52,11 +55,12 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
       <HeadingTypewriter scopeSelector="#packages-scope" />
 
       <ScrollReveal direction="up" className="mt-2">
-        <section className="grid gap-4 rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground dark:bg-card/70 md:grid-cols-[1.05fr_0.95fr] md:p-6">
-          <div className="space-y-4">
-            <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">
-              {copy.packages.eyebrow}
-            </p>
+      <section className="grid gap-4 rounded-[2rem] border border-border/60 bg-card/80 p-5 text-card-foreground dark:bg-card/70 md:grid-cols-[1.05fr_0.95fr] md:p-6">
+        <div className="space-y-4">
+          {/* CLIENTE_OWNED: section labels and commercial scope copy are site content. */}
+          <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">
+            {copy.packages.eyebrow}
+          </p>
             <h2 className="text-2xl font-semibold tracking-tight text-card-foreground md:text-3xl">
               {copy.packages.title}
             </h2>
@@ -93,6 +97,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
         </section>
       </ScrollReveal>
 
+      {/* AGENCY_OWNED: reusable card grid, motion timing, and visual hierarchy. */}
       <section className="mt-10 grid gap-4 md:grid-cols-2">
         {visiblePackages.map((card, index) => (
           <ScrollReveal

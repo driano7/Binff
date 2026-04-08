@@ -5,6 +5,7 @@ import { useEffect } from "react"
 const HEADING_SELECTOR = "h1, h2, h3, h4, h5, h6"
 const CHAR_DELAY_MS = 34
 
+// AGENCY_OWNED: distinctive heading animation used as part of the site's visual identity.
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
 
 function buildTypingMarkup(heading: HTMLElement) {

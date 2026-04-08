@@ -1,15 +1,18 @@
 import Link from "next/link"
 import { ArrowUpRight, CalendarClock, ChevronDown, GitFork, Globe2, LockKeyhole, MessageSquareText, RefreshCw, ShieldCheck, Star, Workflow } from "lucide-react"
 
-import { HeadingTypewriter } from "@/components/heading-typewriter"
-import { ScrollReveal } from "@/components/scroll-reveal"
+import { HeadingTypewriter } from "@/components/core/heading-typewriter"
+import { ScrollReveal } from "@/components/core/scroll-reveal"
 import { getFeaturedGitHubProjects, summarizeGitHubProjects, type GitHubRepository } from "@/lib/github-projects"
-import { type Locale } from "@/lib/site-content"
+import { type Locale } from "@/content/client/site-content"
 
 type PortfolioPageContentProps = {
   locale: Locale
 }
 
+// MIXED: portfolio narratives are brand/client-facing content, while the cards/layout are reusable agency components.
+// NOTE: mentions of third-party services in portfolio copy are descriptive unless the repo contains active integration code.
+// CLIENTE_OWNED: hero labels and portfolio narrative are site/brand copy.
 const heroCopy: Record<Locale, { eyebrow: string; title: string; description: string; sectionTag: string; showcaseTag: string; recentTag: string; emptyState: string; openRepo: string; openSite: string; updated: string; projectInProgress: string; conceptProject: string; featuredRepos: string; technicalShowcase: string; }> = {
   en: {
     eyebrow: "Portfolio",
@@ -64,6 +67,7 @@ const heroCopy: Record<Locale, { eyebrow: string; title: string; description: st
   },
 }
 
+// CLIENTE_OWNED: showcase copy and project descriptions are portfolio content.
 const showcaseDetails = {
   en: {
     xoco: {
@@ -84,10 +88,10 @@ const showcaseDetails = {
       summary:
         "Private platform for the crypto ecosystem, designed to bring content, sign-in, and conversion together in one place.",
       body:
-        "Built with Next.js and TypeScript. MDX keeps the content easy to update, social login makes access simpler, Stripe handles payments, and analytics help the team understand how people use the site. I also worked on the affiliate and admin tools.",
+        "Built with Next.js and TypeScript. MDX keeps the content easy to update, social login makes access simpler, a payment layer handles transactions, and analytics help the team understand how people use the site. I also worked on the affiliate and admin tools.",
       capabilities: [
         "Social login and auth flows",
-        "Stripe payments",
+        "Payment integration",
         "Content and news publishing",
         "Passive analytics",
         "Internal panel and affiliates",
@@ -127,10 +131,10 @@ const showcaseDetails = {
       summary:
         "Plateforme privée pour l’écosystème crypto, pensée pour réunir contenu, connexion et conversion au même endroit.",
       body:
-        "Développée avec Next.js et TypeScript. MDX permet de mettre à jour le contenu facilement, la connexion sociale simplifie l’accès, Stripe gère les paiements et les analyses aident l’équipe à comprendre comment le site est utilisé. J’ai aussi travaillé sur les outils d’affiliation et d’administration.",
+        "Développée avec Next.js et TypeScript. MDX permet de mettre à jour le contenu facilement, la connexion sociale simplifie l’accès, une couche de paiement gère les transactions et les analyses aident l’équipe à comprendre comment le site est utilisé. J’ai aussi travaillé sur les outils d’affiliation et d’administration.",
       capabilities: [
         "Connexion sociale et flux d’authentification",
-        "Paiements Stripe",
+        "Intégration des paiements",
         "Publication de contenu et d’actualités",
         "Analytics passive",
         "Espace interne et affiliés",
@@ -170,10 +174,10 @@ const showcaseDetails = {
       summary:
         "Plataforma privada orientada al ecosistema cripto, pensada para reunir contenido, acceso y conversión en un solo lugar.",
       body:
-        "Desarrollada con Next.js y TypeScript. MDX permite actualizar el contenido fácilmente, el login social simplifica el acceso, Stripe gestiona los pagos y la analítica ayuda al equipo a entender cómo se usa el sitio. También trabajé en las herramientas de afiliados y administración.",
+        "Desarrollada con Next.js y TypeScript. MDX permite actualizar el contenido fácilmente, el login social simplifica el acceso, una capa de pagos gestiona las transacciones y la analítica ayuda al equipo a entender cómo se usa el sitio. También trabajé en las herramientas de afiliados y administración.",
       capabilities: [
         "Social login y flujos de autorización",
-        "Pagos con Stripe",
+        "Integración de pagos",
         "Publicación de contenido y noticias",
         "Analítica pasiva",
         "Panel interno y afiliados",
@@ -196,12 +200,14 @@ const showcaseDetails = {
   },
 } as const
 
+// AGENCY_OWNED: presentation surfaces and motion rhythm are reusable UI patterns.
 const surfaceGradients = [
   "from-accent/20 via-background to-primary/10",
   "from-sky-400/20 via-background to-accent/15",
   "from-emerald-400/20 via-background to-accent/15",
 ] as const
 
+// AGENCY_OWNED: locale mapping and relative-time helper are reusable utility behavior.
 const localeMap: Record<Locale, string> = {
   en: "en",
   fr: "fr",

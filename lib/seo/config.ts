@@ -1,5 +1,7 @@
 import type { SeoConfig, SeoPostalAddress } from "@/lib/seo/types"
 
+// AGENCY_OWNED: reusable SEO configuration shape.
+// The actual values below are project-specific and should be treated as site configuration, not framework logic.
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL?.trim() || "http://localhost:3000"
 
 const brandLocation: SeoPostalAddress | undefined = undefined
@@ -36,4 +38,3 @@ export const seoConfig: SeoConfig = {
       "Creación de sitios web, SEO técnico y posicionamiento orgánico para empresas y negocios.",
   },
 }
-

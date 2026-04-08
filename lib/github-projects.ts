@@ -1,6 +1,7 @@
 import fs from "node:fs"
 import path from "node:path"
 
+// THIRD_PARTY_INTEGRATION: consumes the public GitHub API and README assets to populate portfolio cards.
 export type GitHubRepository = {
   id: number
   name: string

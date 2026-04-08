@@ -1,5 +1,6 @@
 import type { SeoConfig } from "@/lib/seo/types"
 
+// AGENCY_OWNED: canonical URL helpers used by SEO, sitemap, robots and JSON-LD generation.
 function stripTrailingSlash(url: URL) {
   if (url.pathname !== "/" && url.pathname.endsWith("/")) {
     url.pathname = url.pathname.replace(/\/+$/, "")
@@ -40,4 +41,3 @@ export function buildMetadataBaseUrl(config: SeoConfig) {
 export function getSiteUrl(config: SeoConfig) {
   return buildCanonicalUrl(config)
 }
-
