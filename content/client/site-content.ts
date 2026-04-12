@@ -749,7 +749,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
               badge: "Agenda",
               title: "Agenda tus clientes",
               summary:
-                "Tus clientes reservan tiempo en tu despacho, consultorio o sucursal con QR, confirmación por email y métricas de horarios y días de mayor demanda.",
+                "Tus clientes reservan tiempo en tu despacho, consultorio o sucursal con QR, confirmación por email y métricas de horarios y días de mayor demanda. Ideal para servicios y profesionistas.",
               bullets: ["Reserva con QR", "Confirmación por email", "Métricas de clientes y horarios"],
               cta: "Quiero agendar clientes",
               eventType: "booking_start",
@@ -759,7 +759,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
               badge: "Vende",
               title: "Vende a tus clientes",
               summary:
-                "Tu propia tienda en línea con pagos seguros, clientes ordenados y analítica pasiva para saber qué les gusta más dentro del sitio.",
+                "Tu propia tienda en línea con pagos seguros, clientes ordenados y analítica pasiva para saber qué les gusta más dentro del sitio. Ideal para vender productos.",
               bullets: ["Tienda online", "Pagos seguros", "Dashboards inteligentes"],
               cta: "Quiero vender productos",
               eventType: "purchase_start",

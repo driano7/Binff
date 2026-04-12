@@ -79,7 +79,8 @@ export function SiteFooter({ locale }: SiteFooterProps) {
           {contactItems.map((item) => {
             const Icon = item.icon
             const chip = (
-              <span className="inline-flex items-center gap-2 rounded-full border border-black/10 bg-white px-3 py-2 text-foreground transition-colors hover:border-[color:var(--accent)]/30 hover:text-[color:var(--accent)] dark:border-white/10 dark:bg-white/5 dark:text-white/90">
+              <span className="group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-black/10 bg-white px-3 py-2 text-foreground transition-all duration-300 hover:border-[color:var(--accent)]/35 hover:text-[color:var(--accent)] hover:shadow-[0_0_0_1px_rgba(251,125,79,0.12),0_12px_24px_rgba(251,125,79,0.08)] dark:border-white/10 dark:bg-white/5 dark:text-white/90">
+                <span className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(251,125,79,0.18),transparent_72%)] opacity-0 transition-opacity duration-300 content-[''] group-hover:opacity-100" />
                 <Icon className="h-3.5 w-3.5" />
                 {item.label}
               </span>

@@ -426,13 +426,15 @@
   }
 
   .package-scale-rise {
-    animation: package-scale-rise var(--package-scale-duration, 8.5s) ease-in-out infinite;
+    animation: package-scale-rise var(--package-scale-duration, 8.5s) cubic-bezier(0.45, 0, 0.2, 1) infinite;
     animation-delay: var(--package-scale-delay, 0ms);
+    will-change: transform;
   }
 
   .package-scale-fall {
-    animation: package-scale-fall var(--package-scale-duration, 9s) ease-in-out infinite;
+    animation: package-scale-fall var(--package-scale-duration, 9s) cubic-bezier(0.45, 0, 0.2, 1) infinite;
     animation-delay: var(--package-scale-delay, 0ms);
+    will-change: transform;
   }
 
   @keyframes package-scale-rise {
@@ -441,7 +443,7 @@
       transform: translate3d(0, 0, 0);
     }
     50% {
-      transform: translate3d(0, -10px, 0);
+      transform: translate3d(0, -18px, 0);
     }
   }
 
@@ -451,7 +453,7 @@
       transform: translate3d(0, 0, 0);
     }
     50% {
-      transform: translate3d(0, 10px, 0);
+      transform: translate3d(0, 18px, 0);
     }
   }
 

@@ -50,7 +50,9 @@ export default async function Home() {
           <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/10 to-background/45" />
         </div>
 
-        <div className="relative z-10 flex w-full max-w-5xl flex-col items-center text-center">
+        <div
+          className="relative z-10 flex w-full max-w-5xl -translate-y-[18%] flex-col items-center text-center lg:-translate-y-[33%]"
+        >
           <h1
             className="home-reveal-title font-serif text-5xl leading-[1.05] tracking-tight text-white sm:text-6xl md:text-7xl xl:text-[5rem]"
             style={{ textShadow: "0 4px 20px rgba(0,0,0,0.5)" }}

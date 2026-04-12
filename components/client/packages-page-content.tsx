@@ -19,6 +19,8 @@ const packageChipSurfaces = [
 ] as const
 
 const packageFactIcons = [Target, LayoutGrid, RefreshCw, Search] as const
+const contactChipClassName =
+  "group relative inline-flex items-center gap-2 overflow-hidden rounded-full border border-black/10 bg-white px-3 py-2 text-foreground transition-all duration-300 hover:border-[color:var(--accent)]/35 hover:text-[color:var(--accent)] hover:shadow-[0_0_0_1px_rgba(251,125,79,0.12),0_12px_24px_rgba(251,125,79,0.08)] dark:border-white/10 dark:bg-white/5 dark:text-white/90"
 
 function buildAnalyticsAttrs(
   eventType: string,
@@ -32,6 +34,44 @@ function buildAnalyticsAttrs(
     "data-analytics-label": label,
     ...(value === undefined ? {} : { "data-analytics-value": String(value) }),
   } as const
+}
+
+function renderAgendaSummary(summary: string) {
+  const phrase = "Ideal para servicios y profesionistas."
+  const parts = summary.split(phrase)
+
+  if (parts.length === 1) {
+    return summary
+  }
+
+  return (
+    <>
+      {parts[0]}
+      <span className="underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+        {phrase}
+      </span>
+      {parts[1]}
+    </>
+  )
+}
+
+function renderVendeSummary(summary: string) {
+  const phrase = "Ideal para vender productos."
+  const parts = summary.split(phrase)
+
+  if (parts.length === 1) {
+    return summary
+  }
+
+  return (
+    <>
+      {parts[0]}
+      <span className="underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+        {phrase}
+      </span>
+      {parts[1]}
+    </>
+  )
 }
 
 type PackagesPageContentProps = {
@@ -50,17 +90,21 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
   const scalePackage = copy.packages.cards.find((card) => card.badge === "Scale") ?? copy.packages.cards[2]
 
   // AGENCY_OWNED: reusable contact CTA block shared across package cards and quote prompts.
+  const renderEmailChip = (href: string, surfaceKey?: string) => (
+    <a
+      href={href}
+      className={contactChipClassName}
+      {...(surfaceKey ? buildAnalyticsAttrs("cta_click", surfaceKey, "Email") : {})}
+    >
+      <span className="pointer-events-none absolute inset-0 rounded-full bg-[radial-gradient(circle_at_center,rgba(251,125,79,0.18),transparent_72%)] opacity-0 transition-opacity duration-300 content-[''] group-hover:opacity-100" />
+      <Mail className="h-4 w-4" />
+      Email
+    </a>
+  )
+
   const renderContactActions = (surfaceKey: string) => (
     <div className="flex flex-wrap gap-2 pt-1">
-      <Button asChild size="sm" variant="outline" className="rounded-full">
-        <a
-          href={`mailto:${mainEmail}`}
-          {...buildAnalyticsAttrs("cta_click", `${surfaceKey}.email`, "Email")}
-        >
-          <Mail className="h-4 w-4" />
-          Email
-        </a>
-      </Button>
+      {renderEmailChip(`mailto:${mainEmail}`, `${surfaceKey}.email`)}
       <Button asChild size="sm" className="rounded-full">
         <a
           href={whatsappHref}
@@ -156,49 +200,57 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
 
               <div className="grid gap-3">
                 {card.modules.map((module, moduleIndex) => (
-                  <article
+                  <ScrollReveal
                     key={module.title}
-                    className={`flex h-full flex-col justify-between rounded-2xl border border-border/60 bg-background/76 p-4 shadow-[0_12px_28px_-22px_rgba(2,6,23,0.4)] ${
-                      moduleIndex % 2 === 0 ? "package-scale-rise" : "package-scale-fall"
-                    }`}
-                    style={{
-                      ["--package-scale-duration" as string]: `${8.5 + moduleIndex * 0.7}s`,
-                      ["--package-scale-delay" as string]: `${moduleIndex * 140}ms`,
-                    }}
+                    direction={moduleIndex % 2 === 0 ? "up" : "down"}
+                    delay={0.14 + moduleIndex * 0.12}
+                    once
                   >
-                    <div className="space-y-3">
-                      <span className="inline-flex rounded-full border border-border/70 bg-background/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
-                        {module.badge}
-                      </span>
-                      <div className="space-y-1.5">
-                        <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-card-foreground">
-                          {module.title}
-                        </h4>
-                        <p className="text-sm leading-6 text-muted-foreground">{module.summary}</p>
+                    <article
+                      className={`flex h-full flex-col justify-between rounded-2xl border border-border/60 bg-background/76 p-4 shadow-[0_12px_28px_-22px_rgba(2,6,23,0.4)] ${
+                        moduleIndex === 1 ? "lg:translate-y-2" : moduleIndex === 2 ? "lg:-translate-y-2" : ""
+                      }`}
+                    >
+                      <div className="space-y-3">
+                        <span className="inline-flex rounded-full border border-border/70 bg-background/80 px-2.5 py-1 text-[10px] font-semibold uppercase tracking-[0.24em] text-muted-foreground">
+                          {module.badge}
+                        </span>
+                        <div className="space-y-1.5">
+                          <h4 className="text-sm font-semibold uppercase tracking-[0.18em] text-card-foreground">
+                            {module.title}
+                          </h4>
+                          <p className="text-sm leading-6 text-muted-foreground">
+                            {module.badge === "Agenda"
+                              ? renderAgendaSummary(module.summary)
+                              : module.badge === "Vende"
+                                ? renderVendeSummary(module.summary)
+                                : module.summary}
+                          </p>
+                        </div>
+                        <div className="flex flex-wrap gap-2">
+                          {module.bullets.map((bullet) => (
+                            <span
+                              key={bullet}
+                              className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/75 px-3 py-1 text-xs text-card-foreground"
+                            >
+                              <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
+                              <span>{bullet}</span>
+                            </span>
+                          ))}
+                        </div>
                       </div>
-                      <div className="flex flex-wrap gap-2">
-                        {module.bullets.map((bullet) => (
-                          <span
-                            key={bullet}
-                            className="inline-flex items-center gap-2 rounded-full border border-border/60 bg-card/75 px-3 py-1 text-xs text-card-foreground"
+                      <div className="pt-4">
+                        <Button asChild size="sm" className="rounded-full">
+                          <a
+                            href={`mailto:${mainEmail}?subject=${encodeURIComponent(`${card.title} - ${module.title}`)}`}
+                            {...buildAnalyticsAttrs(module.eventType, module.surfaceKey, module.cta)}
                           >
-                            <CheckCircle2 className="h-3.5 w-3.5 shrink-0 text-emerald-500" />
-                            <span>{bullet}</span>
-                          </span>
-                        ))}
+                            {module.cta}
+                          </a>
+                        </Button>
                       </div>
-                    </div>
-                    <div className="pt-4">
-                      <Button asChild size="sm" className="rounded-full">
-                        <a
-                          href={`mailto:${mainEmail}?subject=${encodeURIComponent(`${card.title} - ${module.title}`)}`}
-                          {...buildAnalyticsAttrs(module.eventType, module.surfaceKey, module.cta)}
-                        >
-                          {module.cta}
-                        </a>
-                      </Button>
-                    </div>
-                  </article>
+                    </article>
+                  </ScrollReveal>
                 ))}
               </div>
             </div>
@@ -345,12 +397,7 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
               </p>
             </div>
             <div className="flex flex-wrap gap-3">
-              <Button asChild variant="outline" className="rounded-full">
-                <a href={`mailto:${mainEmail}`}>
-                  <Mail className="h-4 w-4" />
-                  Email
-                </a>
-              </Button>
+              {renderEmailChip(`mailto:${mainEmail}`)}
               <Button asChild className="rounded-full">
                 <a href={whatsappHref} target="_blank" rel="noreferrer">
                   <MinimalWhatsappIcon className="h-4 w-4" />

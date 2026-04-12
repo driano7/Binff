@@ -335,16 +335,13 @@ function SystemsLayerVisual({
   const spheres = useMemo(
     () =>
       [
-        { x: 0.24, y: 0.23, vx: 0.008, vy: 0.006, size: 0.19, color: "rgba(56, 189, 248, 0.98)", glow: "rgba(56, 189, 248, 0.28)" },
-        { x: 0.52, y: 0.18, vx: -0.006, vy: 0.007, size: 0.11, color: "rgba(244, 114, 182, 0.98)", glow: "rgba(244, 114, 182, 0.24)" },
-        { x: 0.74, y: 0.22, vx: 0.005, vy: -0.006, size: 0.13, color: "rgba(251, 146, 60, 0.98)", glow: "rgba(251, 146, 60, 0.28)" },
-        { x: 0.26, y: 0.56, vx: 0.007, vy: -0.005, size: 0.1, color: "rgba(16, 185, 129, 0.96)", glow: "rgba(16, 185, 129, 0.22)" },
-        { x: 0.58, y: 0.54, vx: -0.005, vy: 0.006, size: 0.15, color: "rgba(249, 115, 22, 0.98)", glow: "rgba(249, 115, 22, 0.28)" },
-        { x: 0.41, y: 0.72, vx: 0.006, vy: 0.004, size: 0.08, color: "rgba(236, 72, 153, 0.96)", glow: "rgba(236, 72, 153, 0.2)" },
-        { x: 0.71, y: 0.67, vx: -0.007, vy: 0.005, size: 0.12, color: "rgba(245, 158, 11, 0.98)", glow: "rgba(245, 158, 11, 0.24)" },
-        { x: 0.2, y: 0.76, vx: 0.005, vy: -0.007, size: 0.09, color: "rgba(34, 211, 238, 0.94)", glow: "rgba(34, 211, 238, 0.2)" },
-        { x: 0.8, y: 0.8, vx: -0.004, vy: -0.006, size: 0.07, color: "rgba(217, 70, 239, 0.96)", glow: "rgba(217, 70, 239, 0.18)" },
-        { x: 0.53, y: 0.36, vx: 0.006, vy: -0.004, size: 0.06, color: "rgba(253, 224, 71, 0.94)", glow: "rgba(253, 224, 71, 0.18)" },
+        { x: 0.24, y: 0.17, vx: 0.016, vy: 0.012, size: 0.15, color: "rgba(56, 189, 248, 0.98)", glow: "rgba(56, 189, 248, 0.28)" },
+        { x: 0.47, y: 0.22, vx: -0.013, vy: 0.015, size: 0.095, color: "rgba(244, 114, 182, 0.98)", glow: "rgba(244, 114, 182, 0.24)" },
+        { x: 0.73, y: 0.2, vx: 0.011, vy: -0.013, size: 0.11, color: "rgba(251, 146, 60, 0.98)", glow: "rgba(251, 146, 60, 0.28)" },
+        { x: 0.26, y: 0.5, vx: 0.014, vy: -0.012, size: 0.08, color: "rgba(16, 185, 129, 0.96)", glow: "rgba(16, 185, 129, 0.22)" },
+        { x: 0.56, y: 0.48, vx: -0.01, vy: 0.013, size: 0.125, color: "rgba(249, 115, 22, 0.98)", glow: "rgba(249, 115, 22, 0.28)" },
+        { x: 0.72, y: 0.7, vx: -0.014, vy: 0.012, size: 0.085, color: "rgba(245, 158, 11, 0.98)", glow: "rgba(245, 158, 11, 0.24)" },
+        { x: 0.18, y: 0.78, vx: 0.01, vy: -0.014, size: 0.07, color: "rgba(34, 211, 238, 0.94)", glow: "rgba(34, 211, 238, 0.2)" },
       ] as const,
     [],
   )
@@ -363,29 +360,29 @@ function SystemsLayerVisual({
         <div className="absolute left-1/2 top-1/2 h-[min(54vw,340px)] w-[min(54vw,340px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(255,255,255,0.07),transparent_66%)]" />
         <div className="absolute left-1/2 top-[48%] h-[min(58vw,390px)] w-[min(58vw,390px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(255,73,179,0.14),transparent_42%)] blur-2xl" />
 
-        <div className="absolute left-1/2 top-1/2 w-full max-w-[560px] -translate-x-1/2 -translate-y-1/2 px-4">
+        <div className="absolute left-1/2 top-1/2 w-full max-w-[520px] -translate-x-1/2 -translate-y-1/2 px-6">
           <div
-            className="relative mx-auto h-[min(58vw,460px)] w-[min(46vw,320px)]"
+            className="relative mx-auto aspect-square h-[min(64vw,520px)] w-[min(64vw,520px)]"
             style={{
-              animation: reducedMotion ? "none" : "service-system-bob 5.8s ease-in-out infinite",
+              animation: reducedMotion ? "none" : "service-system-bob 3.8s ease-in-out infinite",
             }}
           >
             {spheres.map((sphere, index) => (
               <div
                 key={`${sphere.color}-${index}`}
-                className="absolute aspect-square rounded-full"
+                className="absolute rounded-full"
                 style={{
                   left: `${sphere.x * 100}%`,
                   top: `${sphere.y * 100}%`,
-                  width: `calc(${sphere.size * 100}% * ${lerp(0.92, 1, strength)})`,
-                  height: `calc(${sphere.size * 100}% * ${lerp(0.92, 1, strength)})`,
+                  width: `calc(${sphere.size * 100}% * ${lerp(0.94, 1.03, strength)})`,
+                  height: `calc(${sphere.size * 100}% * ${lerp(0.94, 1.03, strength)})`,
                   background: sphere.color,
                   boxShadow: `0 0 48px ${sphere.glow}, 0 0 96px ${sphere.glow}`,
                   filter: `saturate(${lerp(1.1, 1.35, strength)}) brightness(${lerp(0.96, 1.12, strength)})`,
                   transform: `translate3d(-50%, -50%, 0)`,
                   opacity: lerp(0.82, 1, strength),
-                  animation: reducedMotion ? "none" : `service-system-float-${index % 4} ${4.2 + (index % 4) * 0.65}s ease-in-out infinite`,
-                  animationDelay: `${index * 140}ms`,
+                  animation: reducedMotion ? "none" : `service-system-float-${index % 4} ${2.8 + (index % 4) * 0.4}s ease-in-out infinite`,
+                  animationDelay: `${index * 90}ms`,
                 }}
               />
             ))}
@@ -482,6 +479,49 @@ function ScenePanel({
   )
 }
 
+function MobileSceneCard({
+  scene,
+  index,
+  reducedMotion,
+}: {
+  scene: FruityScene
+  index: number
+  reducedMotion: boolean
+}) {
+  return (
+    <section className="rounded-[2rem] border border-border/70 bg-card/96 p-4 shadow-[0_24px_60px_rgba(2,6,23,0.18)] sm:p-5">
+      <div className="mb-4">
+        <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--accent)]">{scene.eyebrow}</p>
+        <AnimatedSceneTitle title={scene.title} active />
+        <p className="mt-3 text-sm leading-7 text-muted-foreground">{scene.summary}</p>
+      </div>
+
+      <div className="mb-4 rounded-[1.75rem] border border-border/60 bg-background/60">
+        <div className="h-[240px] overflow-hidden sm:h-[280px]">
+          {index === 0 ? (
+            <ProductBuildVisual strength={1} reducedMotion={reducedMotion} />
+          ) : index === 1 ? (
+            <VisibilityVisual strength={1} reducedMotion={reducedMotion} />
+          ) : (
+            <SystemsLayerVisual strength={1} reducedMotion={reducedMotion} />
+          )}
+        </div>
+      </div>
+
+      <div className="grid gap-2 sm:grid-cols-3">
+        {scene.bullets.map((bullet) => (
+          <div
+            key={bullet}
+            className="rounded-2xl border border-border/60 bg-background/70 px-4 py-3 text-sm leading-6 text-card-foreground"
+          >
+            {bullet}
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
 export function ServicesFruityShowcase({ scenes }: ServicesFruityShowcaseProps) {
   const wrapperRef = useRef<HTMLDivElement | null>(null)
   const reducedMotion = useReducedMotion()
@@ -536,7 +576,7 @@ export function ServicesFruityShowcase({ scenes }: ServicesFruityShowcaseProps) 
   return (
     <>
     <section ref={wrapperRef} className="relative mt-8">
-        <div className="relative" style={{ height: `${Math.max(1, scenes.length) * 92}svh` }}>
+        <div className="relative hidden lg:block" style={{ height: `${Math.max(1, scenes.length) * 92}svh` }}>
           <div className="sticky top-24 h-[calc(100svh-7rem)]">
             <div className="relative h-full">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.1),transparent_42%),linear-gradient(135deg,rgba(251,146,60,0.04),transparent_42%,rgba(59,130,246,0.05))]" />
@@ -599,6 +639,12 @@ export function ServicesFruityShowcase({ scenes }: ServicesFruityShowcaseProps) 
               </div>
             </div>
           </div>
+        </div>
+
+        <div className="grid gap-6 lg:hidden">
+          {scenes.map((scene, index) => (
+            <MobileSceneCard key={scene.title} scene={scene} index={index} reducedMotion={reducedMotion} />
+          ))}
         </div>
       </section>
 
@@ -777,7 +823,7 @@ export function ServicesFruityShowcase({ scenes }: ServicesFruityShowcaseProps) 
             transform: translate3d(0, 0, 0);
           }
           50% {
-            transform: translate3d(0, -12px, 0);
+            transform: translate3d(0, -16px, 0);
           }
         }
 
@@ -787,7 +833,7 @@ export function ServicesFruityShowcase({ scenes }: ServicesFruityShowcaseProps) 
             transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0);
           }
           50% {
-            transform: translate3d(-50%, -50%, 0) translate3d(28px, -22px, 0);
+            transform: translate3d(-50%, -50%, 0) translate3d(34px, -26px, 0);
           }
         }
 
@@ -797,7 +843,7 @@ export function ServicesFruityShowcase({ scenes }: ServicesFruityShowcaseProps) 
             transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0);
           }
           50% {
-            transform: translate3d(-50%, -50%, 0) translate3d(-24px, 22px, 0);
+            transform: translate3d(-50%, -50%, 0) translate3d(-30px, 26px, 0);
           }
         }
 
@@ -807,7 +853,7 @@ export function ServicesFruityShowcase({ scenes }: ServicesFruityShowcaseProps) 
             transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0);
           }
           50% {
-            transform: translate3d(-50%, -50%, 0) translate3d(20px, 26px, 0);
+            transform: translate3d(-50%, -50%, 0) translate3d(26px, 32px, 0);
           }
         }
 
@@ -817,7 +863,7 @@ export function ServicesFruityShowcase({ scenes }: ServicesFruityShowcaseProps) 
             transform: translate3d(-50%, -50%, 0) translate3d(0, 0, 0);
           }
           50% {
-            transform: translate3d(-50%, -50%, 0) translate3d(-18px, -18px, 0);
+            transform: translate3d(-50%, -50%, 0) translate3d(-24px, -24px, 0);
           }
         }
 

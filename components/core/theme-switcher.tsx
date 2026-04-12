@@ -67,7 +67,7 @@ export function ThemeSwitcher() {
       aria-label="Toggle theme"
       type="button"
       onClick={handleToggleTheme}
-      className="group relative ml-1 mr-1 flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-black/5 bg-white/86 p-0 text-foreground shadow-[0_10px_26px_rgba(15,23,42,0.1)] transition-transform duration-200 hover:scale-105 hover:border-[color:var(--accent)]/30 active:scale-95 dark:border-white/10 dark:bg-[rgba(8,10,18,0.9)] dark:shadow-[0_12px_34px_rgba(0,0,0,0.38)]"
+      className="group relative z-[80] ml-1 mr-1 flex h-9 w-9 items-center justify-center overflow-hidden rounded-full border border-black/5 bg-white/86 p-0 text-foreground shadow-[0_10px_26px_rgba(15,23,42,0.1)] transition-all duration-200 touch-manipulation hover:scale-105 hover:border-[color:var(--accent)]/35 hover:text-[color:var(--accent)] hover:shadow-[0_0_0_1px_rgba(251,125,79,0.12),0_12px_24px_rgba(251,125,79,0.08)] active:scale-95 dark:border-white/10 dark:bg-[rgba(8,10,18,0.9)] dark:shadow-[0_12px_34px_rgba(0,0,0,0.38)] dark:hover:border-[color:var(--accent)]/35 dark:hover:text-[color:var(--accent)]"
     >
       <span className="pointer-events-none absolute inset-0 theme-toggle-gradient" aria-hidden />
       <span className="pointer-events-none absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" aria-hidden />

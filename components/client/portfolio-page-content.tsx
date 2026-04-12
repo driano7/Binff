@@ -28,6 +28,14 @@ type PortfolioPageContentProps = {
   locale: Locale
 }
 
+function renderRepoCodeNote(note: string) {
+  return (
+    <span className="underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+      {note}
+    </span>
+  )
+}
+
 // MIXED: portfolio narratives are brand/client-facing content, while the cards/layout are reusable agency components.
 // NOTE: mentions of third-party services in portfolio copy are descriptive unless the repo contains active integration code.
 // CLIENTE_OWNED: hero labels and portfolio narrative are site/brand copy.
@@ -660,7 +668,7 @@ export async function PortfolioPageContent({ locale }: PortfolioPageContentProps
       <div className="mt-12 mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div className="max-w-3xl space-y-2">
           <h2 className="text-2xl font-bold tracking-tight text-foreground md:text-3xl">{copy.featuredRepos}</h2>
-          <p className="text-sm leading-6 text-muted-foreground">{copy.repoCodeNote}</p>
+          <p className="text-sm leading-6 text-muted-foreground">{renderRepoCodeNote(copy.repoCodeNote)}</p>
         </div>
         <span className="rounded-full border border-border/60 bg-card/80 px-3 py-1 text-xs font-semibold text-muted-foreground">
           {copy.technicalShowcase}

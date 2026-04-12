@@ -44,7 +44,8 @@ type AnimatedPlaneParams = {
   texture: Texture
 }
 
-const AUTO_CYCLE_MS = 6800
+const INITIAL_CYCLE_DELAY_MS = 1200
+const AUTO_CYCLE_MS = 120000
 const INTERPOLATION = 0.08
 
 const clamp = (value: number, min: number, max: number) => Math.min(max, Math.max(min, value))
@@ -388,6 +389,7 @@ export function HomeShatteringBackground({ src }: HomeShatteringBackgroundProps)
 
     let frame = 0
     let cycleTimer = 0
+    let firstCycleTimer = 0
     let resizeTimer = 0
     let disposed = false
 
@@ -523,10 +525,11 @@ export function HomeShatteringBackground({ src }: HomeShatteringBackgroundProps)
     }
 
     const scheduleAutoCycle = () => {
+      window.clearTimeout(firstCycleTimer)
       window.clearInterval(cycleTimer)
       if (reducedMotion || textures.length <= 1) return
 
-      cycleTimer = window.setInterval(() => {
+      const advanceSlide = () => {
         const next = targetProgress + direction
         if (next >= textures.length - 1) {
           direction = -1
@@ -537,7 +540,12 @@ export function HomeShatteringBackground({ src }: HomeShatteringBackgroundProps)
         } else {
           targetProgress = next
         }
-      }, AUTO_CYCLE_MS)
+      }
+
+      firstCycleTimer = window.setTimeout(() => {
+        advanceSlide()
+        cycleTimer = window.setInterval(advanceSlide, AUTO_CYCLE_MS)
+      }, INITIAL_CYCLE_DELAY_MS)
     }
 
     const onResize = () => {
@@ -572,6 +580,7 @@ export function HomeShatteringBackground({ src }: HomeShatteringBackgroundProps)
     return () => {
       disposed = true
       window.cancelAnimationFrame(frame)
+      window.clearTimeout(firstCycleTimer)
       window.clearTimeout(resizeTimer)
       window.clearInterval(cycleTimer)
       window.removeEventListener("resize", onResize)
