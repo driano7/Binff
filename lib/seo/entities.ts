@@ -187,7 +187,10 @@ export function buildArticleEntity(
   config: SeoConfig,
   input: BuildArticleEntityInput,
 ): SeoArticleEntity {
-  const fallbackPath = input.kind === "BlogPosting" ? `/blog/${input.slug ?? ""}` : `/casos/${input.slug ?? ""}`
+  const fallbackPath =
+    input.kind === "BlogPosting"
+      ? `/${config.site.defaultLocale}/blog/${input.slug ?? ""}`
+      : `/casos/${input.slug ?? ""}`
   const url = input.url ?? buildCanonicalUrl(config, fallbackPath)
 
   return {

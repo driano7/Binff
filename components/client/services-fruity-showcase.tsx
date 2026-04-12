@@ -1,6 +1,6 @@
 "use client"
 
-import type { ReactNode } from "react"
+import type { CSSProperties, ReactNode } from "react"
 import { useEffect, useMemo, useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
@@ -36,14 +36,24 @@ function useReducedMotion() {
 function AnimatedSceneTitle({
   title,
   active,
+  className,
+  style,
 }: {
   title: string
   active: boolean
+  className?: string
+  style?: CSSProperties
 }) {
   const words = title.split(/\s+/)
 
   return (
-    <h2 className="text-balance font-serif text-4xl leading-[0.98] tracking-tight text-card-foreground sm:text-5xl lg:text-6xl">
+    <h2
+      className={cn(
+        "text-balance font-serif text-4xl leading-[0.98] tracking-tight text-card-foreground sm:text-5xl lg:text-6xl",
+        className,
+      )}
+      style={style}
+    >
       {words.map((word, index) => (
         <span key={`${word}-${index}`} className="inline-block overflow-hidden align-bottom">
           <span
@@ -109,6 +119,290 @@ function SceneShell({
   )
 }
 
+const BOARD_SIZE = 6
+const BOARD_CELL_COUNT = BOARD_SIZE * BOARD_SIZE
+const BOARD_TICK_MS = 760
+const BOARD_RESET_TICKS = 18
+
+type BoardCellKind = "empty" | "home" | "slash" | "fire" | "douse" | "dig"
+
+type BoardGameState = {
+  cells: BoardCellKind[]
+  homeIndex: number
+  focusIndex: number
+  diceCol: number
+  diceRow: number
+  actionsLeft: number
+  digCount: number
+  turn: number
+  resetCountdown: number
+  message: string
+}
+
+function randomInt(max: number) {
+  return Math.floor(Math.random() * max)
+}
+
+function randomPick<T>(items: readonly T[]) {
+  return items.length > 0 ? items[randomInt(items.length)] : undefined
+}
+
+function boardIndex(row: number, col: number) {
+  return row * BOARD_SIZE + col
+}
+
+function boardOrthogonalNeighbors(index: number) {
+  const row = Math.floor(index / BOARD_SIZE)
+  const col = index % BOARD_SIZE
+  const neighbors: number[] = []
+
+  if (row > 0) neighbors.push(boardIndex(row - 1, col))
+  if (row < BOARD_SIZE - 1) neighbors.push(boardIndex(row + 1, col))
+  if (col > 0) neighbors.push(boardIndex(row, col - 1))
+  if (col < BOARD_SIZE - 1) neighbors.push(boardIndex(row, col + 1))
+
+  return neighbors
+}
+
+function boardAllNeighbors(index: number) {
+  const row = Math.floor(index / BOARD_SIZE)
+  const col = index % BOARD_SIZE
+  const neighbors: number[] = []
+
+  for (let rowOffset = -1; rowOffset <= 1; rowOffset += 1) {
+    for (let colOffset = -1; colOffset <= 1; colOffset += 1) {
+      if (rowOffset === 0 && colOffset === 0) continue
+      const nextRow = row + rowOffset
+      const nextCol = col + colOffset
+      if (nextRow < 0 || nextRow >= BOARD_SIZE || nextCol < 0 || nextCol >= BOARD_SIZE) continue
+      neighbors.push(boardIndex(nextRow, nextCol))
+    }
+  }
+
+  return neighbors
+}
+
+function createBoardGameState(): BoardGameState {
+  const cells: BoardCellKind[] = Array.from({ length: BOARD_CELL_COUNT }, () => "empty")
+  const homeIndex = randomInt(BOARD_CELL_COUNT)
+  cells[homeIndex] = "home"
+
+  const safeZone = new Set([homeIndex, ...boardAllNeighbors(homeIndex)])
+  const fireCandidates = Array.from({ length: BOARD_CELL_COUNT }, (_, index) => index).filter((index) => !safeZone.has(index))
+  const firstFire = randomPick(fireCandidates)
+
+  if (typeof firstFire === "number") {
+    cells[firstFire] = "fire"
+  }
+
+  const slashCandidates = fireCandidates.filter((index) => index !== firstFire)
+  const firstSlash = randomPick(slashCandidates)
+  const secondSlash = randomPick(slashCandidates.filter((index) => index !== firstSlash))
+
+  if (typeof firstSlash === "number") {
+    cells[firstSlash] = "slash"
+  }
+
+  if (typeof secondSlash === "number" && Math.random() > 0.55) {
+    cells[secondSlash] = "slash"
+  }
+
+  return {
+    cells,
+    homeIndex,
+    focusIndex: homeIndex,
+    diceCol: randomInt(BOARD_SIZE) + 1,
+    diceRow: randomInt(BOARD_SIZE) + 1,
+    actionsLeft: 1,
+    digCount: 2,
+    turn: 0,
+    resetCountdown: 0,
+    message: "Autoplay board",
+  }
+}
+
+function advanceBoardGameState(state: BoardGameState): BoardGameState {
+  if (state.resetCountdown > 0) {
+    if (state.resetCountdown === 1) {
+      return createBoardGameState()
+    }
+
+    return {
+      ...state,
+      resetCountdown: state.resetCountdown - 1,
+      turn: state.turn + 1,
+      message: "Resetting board",
+    }
+  }
+
+  if (state.turn >= BOARD_RESET_TICKS) {
+    return {
+      ...state,
+      resetCountdown: 2,
+      message: "Resetting board",
+      turn: state.turn + 1,
+    }
+  }
+
+  const cells = [...state.cells]
+  const diceCol = randomInt(BOARD_SIZE) + 1
+  const diceRow = randomInt(BOARD_SIZE) + 1
+  const focusIndex = boardIndex(diceRow - 1, diceCol - 1)
+  const phase = state.turn % 3
+  let actionsLeft = state.actionsLeft
+  let digCount = state.digCount
+  let message = state.message
+
+  if (phase === 0) {
+    const focusedCell = cells[focusIndex]
+    if (focusedCell === "empty") {
+      cells[focusIndex] = "slash"
+      message = "Marked"
+    } else if (focusedCell === "slash") {
+      cells[focusIndex] = "fire"
+      message = "Burning"
+    } else if (focusedCell === "home") {
+      actionsLeft = 2
+      message = "Home found"
+    } else if (focusedCell === "fire") {
+      boardOrthogonalNeighbors(focusIndex).forEach((neighbor) => {
+        if (cells[neighbor] === "empty") {
+          cells[neighbor] = "slash"
+        }
+      })
+      message = "Heat spread"
+    } else if (focusedCell === "douse" || focusedCell === "dig") {
+      message = "Resolve"
+    }
+  } else if (phase === 1) {
+    const slashIndices = cells.flatMap((cell, index) => (cell === "slash" ? [index] : []))
+    const emptyIndices = cells.flatMap((cell, index) => (cell === "empty" ? [index] : []))
+
+    if (slashIndices.length > 0 && actionsLeft > 0) {
+      const targetIndex = randomPick(slashIndices)
+      if (typeof targetIndex === "number") {
+        cells[targetIndex] = "douse"
+        actionsLeft -= 1
+        message = "Douse"
+      }
+    } else if (digCount > 0 && emptyIndices.length > 0) {
+      const targetIndex = randomPick(emptyIndices)
+      if (typeof targetIndex === "number") {
+        cells[targetIndex] = "dig"
+        digCount -= 1
+        message = "Dig"
+      }
+    } else {
+      message = "Hold"
+    }
+  } else {
+    const fireIndices = cells.flatMap((cell, index) => (cell === "fire" ? [index] : []))
+
+    if (fireIndices.length > 0) {
+      const sourceIndex = randomPick(fireIndices)
+      if (typeof sourceIndex === "number") {
+        boardOrthogonalNeighbors(sourceIndex).forEach((neighbor) => {
+          if (cells[neighbor] === "empty") {
+            cells[neighbor] = "slash"
+          } else if (cells[neighbor] === "slash") {
+            cells[neighbor] = "fire"
+          } else if (cells[neighbor] === "home") {
+            cells[neighbor] = "fire"
+            message = "Home burned"
+          }
+        })
+        message = message === "Home burned" ? message : "Fire spread"
+      }
+    } else if (cells.every((cell) => cell === "empty" || cell === "home")) {
+      message = "Resetting board"
+      return {
+        ...state,
+        resetCountdown: 2,
+        turn: state.turn + 1,
+        message,
+      }
+    }
+  }
+
+  const homeBurned = cells[state.homeIndex] === "fire"
+
+  if (homeBurned) {
+    message = "Home burned"
+  }
+
+  const slashCount = cells.filter((cell) => cell === "slash").length
+  const fireCount = cells.filter((cell) => cell === "fire").length
+  const shouldReset = homeBurned || (state.turn > 4 && slashCount === 0 && fireCount === 0)
+
+  return {
+    cells,
+    homeIndex: state.homeIndex,
+    focusIndex,
+    diceCol,
+    diceRow,
+    actionsLeft: Math.max(actionsLeft, 0),
+    digCount: Math.max(digCount, 0),
+    turn: state.turn + 1,
+    resetCountdown: shouldReset ? 2 : 0,
+    message: shouldReset && !homeBurned ? "Resetting board" : message,
+  }
+}
+
+function BoardGlyph({
+  kind,
+}: {
+  kind: BoardCellKind
+}) {
+  if (kind === "home") {
+    return (
+      <svg viewBox="0 0 32 32" className="h-4.5 w-4.5" aria-hidden>
+        <path
+          d="M14.2679 8C15.0377 6.66667 16.9623 6.66667 17.7321 8L24.6603 20C25.4301 21.3333 24.4678 23 22.9282 23H9.0718C7.5322 23 6.56995 21.3333 7.33975 20L14.2679 8Z"
+          fill="none"
+          stroke="currentColor"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          strokeWidth="2"
+        />
+      </svg>
+    )
+  }
+
+  if (kind === "slash") {
+    return (
+      <svg viewBox="0 0 32 32" className="h-4.5 w-4.5" aria-hidden>
+        <path d="M9 23L23 9" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      </svg>
+    )
+  }
+
+  if (kind === "fire") {
+    return (
+      <svg viewBox="0 0 32 32" className="h-4.5 w-4.5" aria-hidden>
+        <path d="M16 7C12 11 10 14 10 18c0 4.4 3.3 7 6 7s6-2.6 6-7c0-4-2-7-6-11Z" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      </svg>
+    )
+  }
+
+  if (kind === "douse") {
+    return (
+      <svg viewBox="0 0 32 32" className="h-4.5 w-4.5" aria-hidden>
+        <circle cx="16" cy="16" r="9" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      </svg>
+    )
+  }
+
+  if (kind === "dig") {
+    return (
+      <svg viewBox="0 0 32 32" className="h-4.5 w-4.5" aria-hidden>
+        <rect x="8" y="8" width="16" height="16" rx="1.5" fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" />
+      </svg>
+    )
+  }
+
+  return null
+}
+
 function ProductBuildVisual({
   strength,
   reducedMotion,
@@ -116,99 +410,136 @@ function ProductBuildVisual({
   strength: number
   reducedMotion: boolean
 }) {
+  const [boardState, setBoardState] = useState<BoardGameState>(() => createBoardGameState())
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setBoardState(createBoardGameState())
+      return
+    }
+
+    const interval = window.setInterval(() => {
+      setBoardState((current) => advanceBoardGameState(current))
+    }, BOARD_TICK_MS)
+
+    return () => window.clearInterval(interval)
+  }, [reducedMotion])
+
+  const statusLabel = boardState.resetCountdown > 0 ? "Resetting" : boardState.message
+  const actionLabel = `Actions ${boardState.actionsLeft}`
+  const digLabel = `Dig ${boardState.digCount}`
+  const turnLabel = `Turn ${Math.min(boardState.turn + 1, BOARD_RESET_TICKS)}`
+
   return (
     <SceneShell
-      className="bg-[#060402] dark:bg-[#050301]"
-      title="Product build"
-      eyebrow="01 / Visual stack"
+      className="bg-[#050301] dark:bg-[#030203]"
+      title="Board prototype"
+      eyebrow="01 / Game motion"
       strength={strength}
       reducedMotion={reducedMotion}
     >
-      <div className="absolute inset-0 overflow-hidden">
+      <div className="absolute inset-0 overflow-hidden bg-[radial-gradient(circle_at_top,rgba(255,122,61,0.18),transparent_30%),radial-gradient(circle_at_70%_22%,rgba(255,176,85,0.12),transparent_24%),radial-gradient(circle_at_20%_78%,rgba(255,71,151,0.08),transparent_26%),linear-gradient(180deg,#050301,#030203)]">
+        <div className="absolute inset-0 opacity-[0.1] [background-image:radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.45)_1px,transparent_0)] [background-size:24px_24px]" />
         <div
           className="absolute inset-0"
           style={{
             background:
-              "radial-gradient(circle at 50% 30%, rgba(255, 252, 246, 0.98) 0%, rgba(255, 231, 189, 0.9) 14%, rgba(255, 170, 88, 0.44) 30%, rgba(111, 48, 18, 0.2) 48%, rgba(6, 4, 2, 0.98) 100%)",
-            filter: `saturate(1.42) brightness(${lerp(1.04, 1.14, strength)})`,
-            animation: reducedMotion ? "none" : "service-product-field 8.8s ease-in-out infinite",
+              "radial-gradient(circle at 50% 28%, rgba(255, 255, 248, 0.12) 0%, rgba(255, 191, 119, 0.06) 24%, transparent 56%)",
+            animation: reducedMotion ? "none" : "service-board-field 9.5s ease-in-out infinite",
           }}
         />
-        <div
-          className="absolute inset-0 opacity-95 mix-blend-screen"
-          style={{
-            background:
-              "radial-gradient(circle at 50% 36%, rgba(255, 251, 244, 0.98) 0%, rgba(255, 231, 188, 0.74) 16%, rgba(255, 166, 84, 0.3) 30%, transparent 54%), radial-gradient(circle at 20% 20%, rgba(255, 177, 115, 0.48) 0%, transparent 20%), radial-gradient(circle at 80% 22%, rgba(255, 112, 70, 0.36) 0%, transparent 18%), radial-gradient(circle at 22% 80%, rgba(42, 198, 141, 0.12) 0%, transparent 22%), radial-gradient(circle at 76% 78%, rgba(255, 194, 129, 0.2) 0%, transparent 18%)",
-            animation: reducedMotion ? "none" : "service-product-orbit 9.4s ease-in-out infinite alternate",
-          }}
-        />
-        <div className="absolute left-[10%] top-[18%]">
-          <div
-            className="h-[min(28vw,178px)] w-[min(28vw,178px)] rounded-full blur-[72px]"
-            style={{
-              background:
-                "radial-gradient(circle at 40% 38%, rgba(255, 244, 222, 0.96) 0%, rgba(255, 199, 128, 0.68) 24%, rgba(255, 138, 63, 0.16) 58%, transparent 76%)",
-              animation: reducedMotion ? "none" : "service-product-drift-a 8.8s ease-in-out infinite",
-            }}
-          />
+
+        <div className="absolute left-1/2 top-4 flex -translate-x-1/2 items-center gap-3">
+          <div className="rounded-full border border-white/10 bg-black/32 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.26em] text-[color:var(--accent)] backdrop-blur">
+            {statusLabel}
+          </div>
         </div>
-        <div className="absolute right-[8%] top-[20%]">
-          <div
-            className="h-[min(30vw,198px)] w-[min(30vw,198px)] rounded-full blur-[76px]"
-            style={{
-              background:
-                "radial-gradient(circle at 44% 42%, rgba(255, 165, 103, 0.86) 0%, rgba(255, 103, 63, 0.34) 28%, transparent 72%)",
-              animation: reducedMotion ? "none" : "service-product-drift-b 10.6s ease-in-out infinite",
-            }}
-          />
+
+        <div className="absolute left-4 top-4 hidden rounded-full border border-white/10 bg-black/24 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.28em] text-white/60 backdrop-blur sm:block">
+          Auto play
         </div>
-        <div className="absolute left-[18%] bottom-[16%]">
-          <div
-            className="h-[min(24vw,160px)] w-[min(24vw,160px)] rounded-full blur-[72px]"
-            style={{
-              background:
-                "radial-gradient(circle at 45% 45%, rgba(255, 191, 121, 0.62) 0%, rgba(255, 128, 64, 0.28) 28%, transparent 74%)",
-              animation: reducedMotion ? "none" : "service-product-drift-c 11.2s ease-in-out infinite",
-            }}
-          />
+
+        <div className="absolute inset-0 flex items-center justify-center px-4 pt-16 pb-16 sm:px-6 sm:pt-20 sm:pb-20">
+          <div className="relative w-full max-w-[560px]">
+            <div className="relative mx-auto aspect-square w-[min(50vw,190px)] -translate-x-[3.5%] sm:w-[min(62vw,468px)]">
+              <div
+                className="absolute inset-0 rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_50%_34%,rgba(255,255,255,0.07),transparent_48%),linear-gradient(180deg,rgba(11,7,4,0.98),rgba(7,4,3,0.98))] shadow-[0_0_80px_rgba(255,122,61,0.08)]"
+                style={{
+                  transform: `scale(${lerp(0.98, 1.02, strength)})`,
+                }}
+              />
+              <div className="absolute inset-[10px] rounded-[1.65rem] border border-white/8 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.04),transparent_44%),linear-gradient(180deg,rgba(8,5,4,0.95),rgba(6,4,3,0.98))]">
+                <div className="absolute inset-[2.35rem] rounded-[1.25rem] border border-white/6 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02),transparent_55%)] p-2">
+                  <div className="grid h-full grid-cols-6 grid-rows-6 gap-1.5">
+                    {boardState.cells.map((kind, index) => {
+                      const isFocus = boardState.focusIndex === index
+                      const isHome = kind === "home"
+                      const isFire = kind === "fire"
+                      const isSlash = kind === "slash"
+                      const isDouse = kind === "douse"
+                      const isDig = kind === "dig"
+
+                      return (
+                        <div
+                          key={`${kind}-${index}`}
+                          className={cn(
+                            "relative grid place-items-center rounded-xl border transition-[transform,background-color,border-color,box-shadow,opacity] duration-500 ease-out will-change-transform",
+                            isHome
+                              ? "border-[color:var(--accent)]/35 bg-[radial-gradient(circle_at_45%_35%,rgba(255,244,220,0.18),transparent_64%),rgba(255,122,61,0.1)] text-[color:var(--accent)]"
+                              : isFire
+                                ? "border-[#ff8b4a]/45 bg-[radial-gradient(circle_at_50%_40%,rgba(255,180,104,0.22),transparent_48%),rgba(55,19,9,0.82)] text-[#ff9a53]"
+                                : isSlash
+                                  ? "border-[#ff7a3d]/40 bg-[rgba(61,22,12,0.62)] text-[#ff7a3d]"
+                                  : isDouse
+                                    ? "border-[#23c79a]/30 bg-[rgba(12,41,30,0.7)] text-[#23c79a]"
+                                    : isDig
+                                      ? "border-[#f4b14a]/30 bg-[rgba(46,31,10,0.62)] text-[#f4b14a]"
+                                      : "border-white/8 bg-white/[0.025] text-white/20",
+                            isFocus ? "shadow-[0_0_0_1px_rgba(255,122,61,0.3),0_0_20px_rgba(255,122,61,0.18)]" : "",
+                          )}
+                          style={{
+                            transform: `scale(${isFocus ? 1.06 : 1})`,
+                            opacity: lerp(0.84, 1, strength),
+                            animation:
+                              reducedMotion
+                                ? "none"
+                                : isFire
+                                  ? "service-board-fire 1.28s ease-in-out infinite"
+                                  : isSlash
+                                    ? "service-board-scan 1.8s ease-in-out infinite"
+                                    : isHome
+                                      ? "service-board-home 2.8s ease-in-out infinite"
+                                      : isDouse
+                                        ? "service-board-douse 2.2s ease-in-out infinite"
+                                        : isDig
+                                          ? "service-board-dig 2.35s ease-in-out infinite"
+                                          : "none",
+                            animationDelay: `${(index % 6) * 70}ms`,
+                          }}
+                        >
+                          {isFocus ? (
+                            <span className="absolute inset-0 rounded-xl border border-[color:var(--accent)]/20 bg-[radial-gradient(circle_at_50%_50%,rgba(255,122,61,0.1),transparent_62%)]" />
+                          ) : null}
+                          <span className="relative z-10">
+                            <BoardGlyph kind={kind} />
+                          </span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
-        <div className="absolute right-[18%] bottom-[18%]">
-          <div
-            className="h-[min(18vw,120px)] w-[min(18vw,120px)] rounded-full blur-[56px]"
-            style={{
-              background:
-                "radial-gradient(circle at 46% 44%, rgba(36, 194, 140, 0.28) 0%, rgba(36, 194, 140, 0.1) 35%, transparent 70%)",
-              animation: reducedMotion ? "none" : "service-product-drift-d 12.2s ease-in-out infinite",
-            }}
-          />
+
+        <div className="absolute inset-x-4 bottom-4">
+          <div className="mx-auto flex max-w-[560px] items-center gap-2 rounded-full border border-white/10 bg-black/38 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55 backdrop-blur">
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[color:var(--accent)]">{actionLabel}</span>
+            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">{digLabel}</span>
+            <span className="ml-auto rounded-full border border-white/10 bg-white/5 px-3 py-1">{turnLabel}</span>
+          </div>
         </div>
-        <div className="absolute inset-x-0 bottom-0 h-36 bg-gradient-to-t from-[#050302] via-[#050302]/94 to-transparent" />
-        <div className="absolute inset-0 opacity-[0.1] [background-image:radial-gradient(circle_at_1px_1px,rgba(255,255,255,0.5)_1px,transparent_0)] [background-size:24px_24px]" />
-        <div className="absolute left-1/2 top-[50%] -translate-x-1/2 -translate-y-1/2">
-          <div
-            className="h-[min(66vw,340px)] w-[min(66vw,340px)] rounded-full blur-[88px]"
-            style={{
-              background:
-                "radial-gradient(circle at 42% 40%, rgba(255, 255, 247, 0.98) 0%, rgba(255, 234, 197, 0.9) 24%, rgba(255, 194, 130, 0.56) 48%, rgba(255, 142, 72, 0.16) 70%, transparent 82%)",
-              animation: reducedMotion ? "none" : "service-product-core 5.2s ease-in-out infinite",
-            }}
-          />
-        </div>
-        <div
-          className="absolute left-1/2 top-[50%] h-[min(74vw,360px)] w-[min(74vw,360px)] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[conic-gradient(from_180deg,rgba(255,255,255,0),rgba(255,123,61,0.72),rgba(255,241,217,1),rgba(255,123,61,0.82),rgba(255,255,255,0))] blur-[76px] mix-blend-screen"
-          style={{
-            animation: reducedMotion ? "none" : "service-product-ring-spin 11s linear infinite",
-          }}
-        />
-        <div
-          className="absolute inset-x-[13%] top-[50%] h-[2px] rounded-full bg-gradient-to-r from-transparent via-[rgba(255,243,223,0.94)] to-transparent blur-[1px]"
-          style={{
-            animation: reducedMotion ? "none" : "service-product-scan 4.8s ease-in-out infinite",
-          }}
-        />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,transparent_34%,rgba(6,4,2,0.22)_68%,rgba(6,4,2,0.58)_100%)]" />
-        <div className="absolute bottom-[18%] left-[14%] h-10 w-24 rounded-full bg-black/18 blur-2xl" />
-        <div className="absolute bottom-[16%] right-[16%] h-14 w-28 rounded-full bg-black/20 blur-2xl" />
       </div>
     </SceneShell>
   )
@@ -261,7 +592,7 @@ function VisibilityVisual({
             </filter>
           </defs>
 
-          <g transform="translate(-108 0)">
+          <g transform="translate(-154 0)">
             <path
               d="M 624 118 C 744 132, 796 208, 752 274 C 704 346, 676 402, 706 470"
               fill="none"
@@ -442,6 +773,8 @@ function ScenePanel({
   const visibility = clamp(1 - distance * 1.5, 0, 1)
   const opacity = visibility < 0.12 ? 0 : lerp(0.65, 1, visibility)
   const lift = lerp(18, 0, clamp(1 - distance, 0, 1))
+  const isVisibilityScene = index === 1
+  const titleOffsetStyle = isVisibilityScene ? ({ transform: "translateX(-30%)" } as const) : undefined
 
   return (
     <div
@@ -455,7 +788,7 @@ function ScenePanel({
       <div className="grid h-full items-center gap-6 lg:grid-cols-[1.04fr_0.96fr]">
         <div className="space-y-5">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--accent)]">{scene.eyebrow}</p>
-          <AnimatedSceneTitle title={scene.title} active={isActive} />
+          <AnimatedSceneTitle title={scene.title} active={isActive} style={titleOffsetStyle} />
           <p className="max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">{scene.summary}</p>
           <div className="grid gap-2 sm:max-w-xl sm:grid-cols-3">
             {scene.bullets.map((bullet, bulletIndex) => (
@@ -492,7 +825,11 @@ function MobileSceneCard({
     <section className="rounded-[2rem] border border-border/70 bg-card/96 p-4 shadow-[0_24px_60px_rgba(2,6,23,0.18)] sm:p-5">
       <div className="mb-4">
         <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--accent)]">{scene.eyebrow}</p>
-        <AnimatedSceneTitle title={scene.title} active />
+          <AnimatedSceneTitle
+          title={scene.title}
+          active
+          style={index === 1 ? ({ transform: "translateX(-30%)" } as const) : undefined}
+        />
         <p className="mt-3 text-sm leading-7 text-muted-foreground">{scene.summary}</p>
       </div>
 
@@ -649,156 +986,82 @@ export function ServicesFruityShowcase({ scenes }: ServicesFruityShowcaseProps) 
       </section>
 
       <style jsx global>{`
-        @keyframes service-product-breathe {
+        @keyframes service-board-field {
           0%,
           100% {
-            transform: scale(1);
+            transform: translate3d(0, 0, 0) scale(1);
+          }
+          22% {
+            transform: translate3d(-8px, -12px, 0) scale(1.02);
           }
           50% {
-            transform: scale(1.06);
+            transform: translate3d(10px, 8px, 0) scale(1.05);
+          }
+          75% {
+            transform: translate3d(-6px, 14px, 0) scale(1.01);
           }
         }
 
-        @keyframes service-product-spot {
+        @keyframes service-board-scan {
+          0% {
+            transform: translate3d(0, 0, 0) scale(0.98);
+            box-shadow: 0 0 0 rgba(255, 122, 61, 0);
+          }
+          50% {
+            transform: translate3d(0, -1px, 0) scale(1.04);
+            box-shadow: 0 0 18px rgba(255, 122, 61, 0.22);
+          }
+          100% {
+            transform: translate3d(0, 0, 0) scale(0.98);
+            box-shadow: 0 0 0 rgba(255, 122, 61, 0);
+          }
+        }
+
+        @keyframes service-board-fire {
           0%,
           100% {
-            transform: scale(0.95);
+            transform: scale(0.96);
+            filter: saturate(1.05) brightness(0.95);
           }
           50% {
             transform: scale(1.08);
+            filter: saturate(1.2) brightness(1.1);
           }
         }
 
-        @keyframes service-product-flare {
+        @keyframes service-board-home {
           0%,
           100% {
-            transform: scale(0.88);
+            transform: scale(0.98);
+            opacity: 0.92;
           }
           50% {
             transform: scale(1.04);
-          }
-        }
-
-        @keyframes service-product-field {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-          25% {
-            transform: translate3d(-8px, -12px, 0) scale(1.03);
-          }
-          50% {
-            transform: translate3d(10px, 8px, 0) scale(1.06);
-          }
-          75% {
-            transform: translate3d(-6px, 14px, 0) scale(1.02);
-          }
-        }
-
-        @keyframes service-product-orbit {
-          0% {
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-          18% {
-            transform: translate3d(8px, -16px, 0) scale(1.04);
-          }
-          50% {
-            transform: translate3d(-10px, -4px, 0) scale(1.06);
-          }
-          82% {
-            transform: translate3d(12px, 10px, 0) scale(1.03);
-          }
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-        }
-
-        @keyframes service-product-core {
-          0%,
-          100% {
-            transform: scale(0.96) translate3d(0, 0, 0);
-            opacity: 0.9;
-          }
-          35% {
-            transform: scale(1.06) translate3d(-6px, -8px, 0);
             opacity: 1;
           }
-          65% {
-            transform: scale(1.12) translate3d(8px, 10px, 0);
-            opacity: 0.95;
-          }
         }
 
-        @keyframes service-product-drift-a {
+        @keyframes service-board-douse {
           0%,
           100% {
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-          40% {
-            transform: translate3d(12px, -18px, 0) scale(1.1);
-          }
-          70% {
-            transform: translate3d(-10px, 10px, 0) scale(0.96);
-          }
-        }
-
-        @keyframes service-product-drift-b {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-          32% {
-            transform: translate3d(-14px, 14px, 0) scale(1.08);
-          }
-          68% {
-            transform: translate3d(10px, -8px, 0) scale(0.98);
-          }
-        }
-
-        @keyframes service-product-drift-c {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-          45% {
-            transform: translate3d(10px, -10px, 0) scale(1.12);
-          }
-          78% {
-            transform: translate3d(-8px, 8px, 0) scale(0.97);
-          }
-        }
-
-        @keyframes service-product-drift-d {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scale(1);
-          }
-          38% {
-            transform: translate3d(-8px, 8px, 0) scale(1.14);
-          }
-          72% {
-            transform: translate3d(8px, -6px, 0) scale(0.94);
-          }
-        }
-
-        @keyframes service-product-ring-spin {
-          0% {
-            transform: translate3d(-50%, -50%, 0) rotate(0deg);
-          }
-          100% {
-            transform: translate3d(-50%, -50%, 0) rotate(360deg);
-          }
-        }
-
-        @keyframes service-product-scan {
-          0%,
-          100% {
-            transform: translate3d(0, 0, 0) scaleX(0.78);
-            opacity: 0.25;
+            transform: scale(0.97);
+            opacity: 0.9;
           }
           50% {
-            transform: translate3d(0, -16px, 0) scaleX(1);
-            opacity: 0.98;
+            transform: scale(1.05);
+            opacity: 1;
+          }
+        }
+
+        @keyframes service-board-dig {
+          0%,
+          100% {
+            transform: scale(0.96);
+            opacity: 0.86;
+          }
+          42% {
+            transform: scale(1.06);
+            opacity: 1;
           }
         }
 

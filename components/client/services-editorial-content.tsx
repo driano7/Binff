@@ -331,15 +331,31 @@ function EditorialSectionBlock({
         ))}
 
         {section.subheading ? (
-          <div className="space-y-4">
+          <ScrollReveal
+            direction="up"
+            once
+            delay={0.08}
+            className="space-y-4 rounded-[1.6rem] border border-border/60 bg-background/72 p-4 shadow-[0_16px_40px_-30px_rgba(2,6,23,0.32)] md:rounded-none md:border-0 md:bg-transparent md:p-0 md:shadow-none"
+          >
             <h4 className="text-center text-sm font-semibold uppercase tracking-[0.3em] text-[color:var(--accent)]/90">
               {section.subheading}
             </h4>
             {section.subdescriptions?.map((paragraph, paragraphIndex) => (
-              <EditorialParagraph key={`${section.title}-subdesc-${paragraphIndex}`}>{paragraph}</EditorialParagraph>
+              <ScrollReveal
+                key={`${section.title}-subdesc-${paragraphIndex}`}
+                direction="up"
+                once
+                delay={0.12 + paragraphIndex * 0.08}
+              >
+                <EditorialParagraph>{paragraph}</EditorialParagraph>
+              </ScrollReveal>
             ))}
-            {section.bullets ? <EditorialBulletList bullets={section.bullets} /> : null}
-          </div>
+            {section.bullets ? (
+              <ScrollReveal direction="up" once delay={0.24}>
+                <EditorialBulletList bullets={section.bullets} />
+              </ScrollReveal>
+            ) : null}
+          </ScrollReveal>
         ) : null}
 
         {!section.subheading && section.bullets ? <EditorialBulletList bullets={section.bullets} /> : null}

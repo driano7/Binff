@@ -213,80 +213,176 @@ const portfolioCardsByLocale: Record<Locale, PortfolioCard[]> = {
 const blogCardsByLocale: Record<Locale, BlogTeaser[]> = {
   en: [
     {
-      slug: "seo-for-bilingual-websites",
-      title: "SEO basics for bilingual websites",
-      excerpt: "A short guide to structure, locale pages, and internal links for sites that need to rank in more than one language.",
-      tag: "SEO",
+      slug: "seo-in-canada",
+      title: "SEO in Canada: what it is and why it still matters",
+      excerpt:
+        "A country-specific guide to bilingual search, local trust signals, and why a specialized studio can outpace generic templates.",
+      tag: "Canada · SEO",
     },
     {
-      slug: "social-content-that-converts",
-      title: "What to publish on a new service website",
-      excerpt: "A practical checklist for homepage copy, service pages, and contact CTAs when the site is still being built.",
-      tag: "Content",
+      slug: "selling-in-canada-with-ai",
+      title: "Selling in Canada in the AI era",
+      excerpt:
+        "How changing search results and AI tools reshape the funnel for service businesses that still need clear positioning.",
+      tag: "Canada · AI",
     },
     {
-      slug: "using-ai-without-losing-brand-voice",
-      title: "Using AI without losing your brand voice",
-      excerpt: "AI can help draft and organize content, but clear editing rules keep the tone consistent.",
-      tag: "AI",
+      slug: "social-media-sales-strategies-canada",
+      title: "Social media sales strategies that work in Canada",
+      excerpt:
+        "Practical ways to turn LinkedIn, Instagram, and short-form content into real inquiries and booked calls.",
+      tag: "Canada · Social",
     },
     {
-      slug: "local-visibility-in-mexico-and-canada",
-      title: "Local visibility in Mexico and Canada",
-      excerpt: "Maps, service pages, and bilingual content can work together when the site is built with local intent.",
-      tag: "Local",
+      slug: "why-canadian-businesses-need-a-website",
+      title: "Why Canadian businesses still need a website",
+      excerpt:
+        "A website gives professionals and companies a place to explain services, support, and long-term trust beyond social platforms.",
+      tag: "Canada · Web",
+    },
+    {
+      slug: "seo-in-mexico",
+      title: "SEO in Mexico: what it is and why it still matters",
+      excerpt:
+        "A local-first look at service pages, WhatsApp-friendly journeys, and the trust signals that move people to contact.",
+      tag: "Mexico · SEO",
+    },
+    {
+      slug: "selling-in-mexico-with-ai",
+      title: "Selling in Mexico in the AI era",
+      excerpt:
+        "How businesses can adapt content, offers, and search visibility as AI changes discovery and the SEO mix.",
+      tag: "Mexico · AI",
+    },
+    {
+      slug: "social-media-sales-strategies-mexico",
+      title: "Social media sales strategies that work in Mexico",
+      excerpt:
+        "A practical mix of social proof, fast replies, and channel choices that convert attention into leads.",
+      tag: "Mexico · Social",
+    },
+    {
+      slug: "why-mexican-businesses-need-a-website",
+      title: "Why Mexican businesses still need a website",
+      excerpt:
+        "The website is the owned channel where you control message, support, updates, and the things AI cannot do for you.",
+      tag: "Mexico · Web",
     },
   ],
   fr: [
     {
-      slug: "seo-for-bilingual-websites",
-      title: "SEO de base pour les sites bilingues",
-      excerpt: "Un guide court sur la structure, les pages par langue et les liens internes pour mieux se positionner dans plusieurs langues.",
-      tag: "SEO",
+      slug: "seo-in-canada",
+      title: "SEO au Canada : ce que c’est et pourquoi cela compte toujours",
+      excerpt:
+        "Un guide centré sur la recherche bilingue, les signaux de confiance locaux et l’intérêt d’un studio spécialisé face aux modèles génériques.",
+      tag: "Canada · SEO",
     },
     {
-      slug: "social-content-that-converts",
-      title: "Que publier sur un nouveau site de services",
-      excerpt: "Une checklist pratique pour la page d’accueil, les pages services et les CTA de contact pendant la construction du site.",
-      tag: "Contenu",
+      slug: "selling-in-canada-with-ai",
+      title: "Vendre au Canada à l’ère de l’IA",
+      excerpt:
+        "Comment les résultats de recherche et les outils IA modifient l’entonnoir pour les entreprises de services qui ont encore besoin d’un positionnement clair.",
+      tag: "Canada · IA",
     },
     {
-      slug: "marketing-with-ai-without-losing-brand-voice",
-      title: "Utiliser l’IA sans perdre la voix de marque",
-      excerpt: "L’IA peut aider à rédiger et organiser le contenu, mais des règles d’édition claires gardent un ton constant.",
-      tag: "IA",
+      slug: "social-media-sales-strategies-canada",
+      title: "Stratégies de vente sur les réseaux sociaux qui fonctionnent au Canada",
+      excerpt:
+        "Des façons concrètes de transformer LinkedIn, Instagram et les contenus courts en demandes réelles et en appels réservés.",
+      tag: "Canada · Social",
     },
     {
-      slug: "local-seo-for-mexico-and-canada",
-      title: "Visibilité locale au Mexique et au Canada",
-      excerpt: "Cartes, pages services et contenu bilingue peuvent fonctionner ensemble quand le site est pensé pour le local.",
-      tag: "Local",
+      slug: "why-canadian-businesses-need-a-website",
+      title: "Pourquoi les entreprises canadiennes ont encore besoin d’un site web",
+      excerpt:
+        "Un site web donne aux professionnels et aux entreprises un endroit pour expliquer services, support et confiance durable au-delà des réseaux.",
+      tag: "Canada · Web",
+    },
+    {
+      slug: "seo-in-mexico",
+      title: "SEO au Mexique : ce que c’est et pourquoi cela compte toujours",
+      excerpt:
+        "Un regard local sur les pages de services, les parcours compatibles avec WhatsApp et les signaux de confiance qui poussent au contact.",
+      tag: "Mexique · SEO",
+    },
+    {
+      slug: "selling-in-mexico-with-ai",
+      title: "Vendre au Mexique à l’ère de l’IA",
+      excerpt:
+        "Comment adapter le contenu, les offres et la visibilité dans les moteurs pendant que l’IA change la découverte et la part du SEO.",
+      tag: "Mexique · IA",
+    },
+    {
+      slug: "social-media-sales-strategies-mexico",
+      title: "Stratégies de vente sur les réseaux sociaux qui fonctionnent au Mexique",
+      excerpt:
+        "Un mélange pratique de preuve sociale, de réponses rapides et de canaux qui transforment l’attention en prospects.",
+      tag: "Mexique · Social",
+    },
+    {
+      slug: "why-mexican-businesses-need-a-website",
+      title: "Pourquoi les entreprises mexicaines ont encore besoin d’un site web",
+      excerpt:
+        "Le site web est le canal propriétaire où vous contrôlez le message, le support, les mises à jour et ce que l’IA ne peut pas faire pour vous.",
+      tag: "Mexique · Web",
     },
   ],
   es: [
     {
-      slug: "seo-for-bilingual-websites",
-      title: "SEO básico para sitios bilingües",
-      excerpt: "Una guía breve sobre estructura, páginas por idioma y enlaces internos para posicionar en más de un idioma.",
-      tag: "SEO",
+      slug: "seo-in-canada",
+      title: "SEO en Canadá: qué es y por qué sigue importando",
+      excerpt:
+        "Una guía enfocada en búsqueda bilingüe, señales de confianza locales y por qué un estudio especializado supera a las plantillas genéricas.",
+      tag: "Canadá · SEO",
     },
     {
-      slug: "social-content-that-converts",
-      title: "Qué publicar en un nuevo sitio de servicios",
-      excerpt: "Una lista práctica para el home, las páginas de servicio y los CTAs de contacto mientras el sitio todavía se construye.",
-      tag: "Contenido",
+      slug: "selling-in-canada-with-ai",
+      title: "Vender en Canadá en la era de la IA",
+      excerpt:
+        "Cómo los resultados de búsqueda y las herramientas de IA cambian el embudo para negocios de servicios que aún necesitan una propuesta clara.",
+      tag: "Canadá · IA",
     },
     {
-      slug: "marketing-with-ai-without-losing-brand-voice",
-      title: "Usar AI sin perder la voz de marca",
-      excerpt: "AI puede ayudar a redactar y ordenar contenido, pero unas reglas claras de edición mantienen el tono consistente.",
-      tag: "AI",
+      slug: "social-media-sales-strategies-canada",
+      title: "Estrategias de ventas por redes sociales que funcionan en Canadá",
+      excerpt:
+        "Formas prácticas de convertir LinkedIn, Instagram y contenido corto en consultas reales y llamadas agendadas.",
+      tag: "Canadá · Social",
     },
     {
-      slug: "local-seo-for-mexico-and-canada",
-      title: "Visibilidad local en México y Canadá",
-      excerpt: "Mapas, páginas de servicio y contenido bilingüe pueden funcionar juntos cuando el sitio se piensa para lo local.",
-      tag: "Local",
+      slug: "why-canadian-businesses-need-a-website",
+      title: "Por qué las empresas canadienses aún necesitan un sitio web",
+      excerpt:
+        "Un sitio web le da a profesionistas y compañías un lugar para explicar servicios, soporte y confianza de largo plazo más allá de las redes.",
+      tag: "Canadá · Web",
+    },
+    {
+      slug: "seo-in-mexico",
+      title: "SEO en México: qué es y por qué sigue importando",
+      excerpt:
+        "Una mirada local a páginas de servicio, recorridos amigables con WhatsApp y señales de confianza que ayudan a convertir.",
+      tag: "México · SEO",
+    },
+    {
+      slug: "selling-in-mexico-with-ai",
+      title: "Vender en México en la era de la IA",
+      excerpt:
+        "Cómo adaptar contenido, ofertas y visibilidad en buscadores mientras la IA cambia el descubrimiento y la mezcla del SEO.",
+      tag: "México · IA",
+    },
+    {
+      slug: "social-media-sales-strategies-mexico",
+      title: "Estrategias de ventas por redes sociales que funcionan en México",
+      excerpt:
+        "Una mezcla práctica de prueba social, respuestas rápidas y canales que convierten atención en leads.",
+      tag: "México · Social",
+    },
+    {
+      slug: "why-mexican-businesses-need-a-website",
+      title: "Por qué las empresas mexicanas aún necesitan un sitio web",
+      excerpt:
+        "El sitio web es el canal propio donde controlas mensaje, soporte, actualizaciones y lo que la IA no puede hacer por ti.",
+      tag: "México · Web",
     },
   ],
 }
@@ -456,7 +552,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       eyebrow: "Blog",
       title: "Short notes on websites, SEO, and practical marketing.",
       description:
-        "A small starter library of articles about bilingual websites, content, AI-assisted workflows, and local visibility.",
+        "Eight practical articles about SEO, AI-era sales, social media, and websites for Canada and Mexico.",
       cards: blogCardsByLocale.en,
       cta: "Read the blog",
     },
@@ -641,7 +737,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       eyebrow: "Blog",
       title: "Des notes courtes sur les sites web, le SEO et le marketing utile.",
       description:
-        "Une petite base d’articles sur les sites bilingues, le contenu, les workflows assistés par IA et la visibilité locale.",
+        "Huit articles pratiques sur le SEO, les ventes à l’ère de l’IA, les réseaux sociaux et les sites web pour le Canada et le Mexique.",
       cards: blogCardsByLocale.fr,
       cta: "Lire le blog",
     },
@@ -826,7 +922,7 @@ export const siteCopy: Record<Locale, SiteCopy> = {
       eyebrow: "Blog",
       title: "Notas cortas sobre sitios web, SEO y marketing útil.",
       description:
-        "Una base pequeña de artículos sobre sitios bilingües, contenido, flujos asistidos por AI y visibilidad local.",
+        "Ocho artículos prácticos sobre SEO, ventas en la era de la IA, redes sociales y sitios web para Canadá y México.",
       cards: blogCardsByLocale.es,
       cta: "Leer blog",
     },

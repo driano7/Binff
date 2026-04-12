@@ -37,7 +37,7 @@ const aboutCopy = {
   es: {
     title: "Sobre nosotros",
     description:
-      "Diseñamos y desarrollamos sitios web y productos digitales a medida para empresas y proyectos de Canadá y México que buscan comunicar mejor su valor, fortalecer su presencia digital y concretar ventas potenciales con interfaces familiares y tecnología actual. Evitamos plantillas simples hechas con AI.",
+      "Diseñamos y desarrollamos sitios web y productos digitales a medida para empresas y proyectos de Canadá y México que buscan comunicar mejor su valor, fortalecer su presencia digital y luego a posicionar sitios en la web (SEO) e IA, contenido y apoyo de marketing cuando hace falta, con interfaces familiares y tecnología actual. Evitamos plantillas simples hechas con AI.",
     panelDescription:
       "Creamos sitios web y productos móviles bilingües pensados desde UX/UI, producto, AI y una ejecución compatible con Web3. El resultado debe sentirse familiar para las personas que ya usan apps todos los días, pero seguir siendo a medida y técnicamente actual.",
     points: [
@@ -52,22 +52,43 @@ const aboutCopy = {
 // CLIENTE_OWNED: these narrative blocks are site/brand messaging.
 const whyMattersCopy = {
   en: {
-    title: "Why it matters",
-    items: ["Custom, not generic AI templates.", "Familiar interactions.", "Current technology with room to grow."],
-    quote:
-      "The goal is not to launch something that merely looks produced. The goal is to launch a product that feels familiar, works cleanly, and is useful for the business.",
+    title: "Why Binff is the better choice",
+    items: [
+      "Custom websites, not flat AI templates.",
+      "Professional delivery with real post-launch support.",
+      "SEO, positioning, and maintenance planned from day one.",
+    ],
+    lead: "Binff is built for businesses that need more than a page online.",
+    emphasis:
+      "We build custom, professional websites that stand apart from AI-generated or flat template sites.",
+    support:
+      "Structure, content, support, and visibility are planned together so the site keeps working after launch.",
   },
   fr: {
-    title: "Pourquoi c’est important",
-    items: ["Sur mesure, pas des modèles IA génériques.", "Des interactions familières.", "Des technologies actuelles avec de la place pour évoluer."],
-    quote:
-      "L’objectif n’est pas de lancer quelque chose qui a seulement l’air produit. L’objectif est de lancer un produit familier, propre à l’usage et réellement utile pour l’entreprise.",
+    title: "Pourquoi Binff est le meilleur choix",
+    items: [
+      "Des sites sur mesure, pas des modèles IA plats.",
+      "Une exécution professionnelle avec un vrai support après le lancement.",
+      "SEO, positionnement et maintenance pensés dès le départ.",
+    ],
+    lead: "Binff est pensé pour les entreprises qui ont besoin de plus qu’une simple page en ligne.",
+    emphasis:
+      "Nous construisons des sites sur mesure et professionnels, plus solides que les modèles générés par IA ou les sites plats.",
+    support:
+      "La structure, le contenu, le support et la visibilité sont pensés ensemble pour que le site continue de fonctionner après le lancement.",
   },
   es: {
-    title: "Por qué importa",
-    items: ["A medida, no plantillas genéricas hechas con AI.", "Interacciones familiares.", "Tecnología actual con espacio para crecer."],
-    quote:
-      "El objetivo no es lanzar algo que solo parezca hecho. El objetivo es lanzar un producto familiar, limpio en el uso y útil para el negocio.",
+    title: "Por qué Binff es la mejor opción",
+    items: [
+      "Sitios a medida, no plantillas planas hechas con AI.",
+      "Entrega profesional con soporte real después del lanzamiento.",
+      "SEO, posicionamiento y mantenimiento previstos desde el inicio.",
+    ],
+    lead: "Binff está pensado para negocios que necesitan más que una página en internet.",
+    emphasis:
+      "Construimos sitios a medida y profesionales que se diferencian de la IA y de los sitios planos.",
+    support:
+      "La estructura, el contenido, el soporte y la visibilidad se planean juntos para que el sitio siga funcionando después del lanzamiento.",
   },
 } as const
 
@@ -318,7 +339,15 @@ export function AboutPageContent({ locale }: AboutPageContentProps) {
 
             <ScrollReveal direction="up" delay={0.24}>
               <div className="mx-auto max-w-3xl rounded-[2rem] border border-border/60 bg-card/80 p-5 text-sm leading-8 text-muted-foreground shadow-[0_18px_55px_-28px_rgba(2,6,23,0.35)] dark:bg-card/70 md:p-6 md:text-base">
-                {whyMattersCopy[locale].quote}
+                <p>{whyMattersCopy[locale].lead}</p>
+                <p className="mt-3 text-card-foreground">
+                  <strong>
+                    <span className="underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
+                      {whyMattersCopy[locale].emphasis}
+                    </span>
+                  </strong>
+                </p>
+                <p className="mt-3">{whyMattersCopy[locale].support}</p>
               </div>
             </ScrollReveal>
           </div>

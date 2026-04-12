@@ -148,6 +148,10 @@ function escapeHtml(value: string) {
 function renderInline(source: string) {
   const escaped = escapeHtml(source)
   return escaped
+    .replace(
+      /&lt;u&gt;([\s\S]+?)&lt;\/u&gt;/g,
+      '<span class="underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">$1</span>',
+    )
     .replace(/\[(.+?)\]\((.+?)\)/g, '<a href="$2" class="underline decoration-[color:var(--accent)]/60 underline-offset-4 hover:text-[color:var(--accent)]" target="_blank" rel="noreferrer">$1</a>')
     .replace(/\*\*(.+?)\*\*/g, "<strong>$1</strong>")
     .replace(/`(.+?)`/g, '<code class="rounded bg-black/5 px-1.5 py-0.5 text-[0.92em] font-medium text-foreground">$1</code>')

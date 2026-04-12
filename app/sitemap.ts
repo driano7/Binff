@@ -37,6 +37,12 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly" as const,
       priority: 0.7,
     },
+    {
+      url: buildCanonicalUrl(seoConfig, `/${locale}/blog`),
+      lastModified: now,
+      changeFrequency: "weekly" as const,
+      priority: 0.8,
+    },
   ])
 
   const staticPages: MetadataRoute.Sitemap = [
@@ -48,12 +54,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     },
     {
       url: buildCanonicalUrl(seoConfig, "/portfolio"),
-      lastModified: now,
-      changeFrequency: "weekly",
-      priority: 0.8,
-    },
-    {
-      url: buildCanonicalUrl(seoConfig, "/blog"),
       lastModified: now,
       changeFrequency: "weekly",
       priority: 0.8,
@@ -72,12 +72,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     })),
   ]
 
-  const blogPages = getAllBlogPosts().map((post) => ({
-    url: buildCanonicalUrl(seoConfig, `/blog/${post.slug}`),
-    lastModified: new Date(post.date),
-    changeFrequency: "monthly" as const,
-    priority: 0.6,
-  }))
+  const blogPages = locales.flatMap((locale) =>
+    getAllBlogPosts().map((post) => ({
+      url: buildCanonicalUrl(seoConfig, `/${locale}/blog/${post.slug}`),
+      lastModified: new Date(post.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.6,
+    })),
+  )
 
   return [...staticPages, ...localePages, ...blogPages]
 }

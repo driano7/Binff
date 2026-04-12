@@ -70,7 +70,7 @@ export function buildLayoutMetadata(
       description: input.description ?? config.site.defaultDescription,
       url: canonical,
       type: "website",
-      locale: config.site.defaultLocale,
+      locale: input.locale ?? config.site.defaultLocale,
       images: [
         {
           url: config.brand.brandLogo,
@@ -116,7 +116,7 @@ export function buildPageMetadata(
       description: input.description,
       url: canonical,
       type: openGraphType,
-      locale: config.site.defaultLocale,
+      locale: input.locale ?? config.site.defaultLocale,
       ...openGraphRest,
       images: normalizeOpenGraphImages(openGraphImages),
     },

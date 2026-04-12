@@ -44,7 +44,7 @@ export function MobileDock({
       { href: localizedSectionHref(locale, "packages"), label: packagesLabel, icon: PocketKnife },
       { href: "/portfolio", label: portfolioLabel, icon: PanelsTopLeft },
       { href: localizedSectionHref(locale, "services"), label: servicesLabel, icon: BriefcaseBusiness },
-      { href: "/blog", label: blogLabel, icon: BookOpenText },
+      { href: localizedSectionHref(locale, "blog"), label: blogLabel, icon: BookOpenText },
     ],
     [aboutLabel, blogLabel, locale, packagesLabel, portfolioLabel, servicesLabel],
   )

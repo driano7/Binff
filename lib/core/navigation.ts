@@ -1,10 +1,14 @@
 import { locales, type Locale } from "@/lib/site-content"
 
 // AGENCY_OWNED: routing helpers for localized navigation.
-export type LocalizedSection = "about" | "packages" | "services"
+export type LocalizedSection = "about" | "packages" | "services" | "blog"
 
 export function localizedSectionHref(locale: Locale, section: LocalizedSection) {
   return `/${locale}/${section}`
+}
+
+export function localizedBlogHref(locale: Locale, slug?: string) {
+  return slug ? `/${locale}/blog/${slug}` : `/${locale}/blog`
 }
 
 export function resolveLocalePath(pathname: string, nextLocale: Locale) {
@@ -26,6 +30,11 @@ export function resolveLocalePath(pathname: string, nextLocale: Locale) {
 
   if (firstSegment === "about" || firstSegment === "packages" || firstSegment === "services") {
     return `/${nextLocale}/${firstSegment}`
+  }
+
+  if (firstSegment === "blog") {
+    const rest = segments.slice(1).join("/")
+    return rest ? `/${nextLocale}/blog/${rest}` : `/${nextLocale}/blog`
   }
 
   return pathname

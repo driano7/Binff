@@ -59,6 +59,7 @@ export interface SeoPageMetadataInput {
   title: string
   description: string
   canonicalPath?: string
+  locale?: string
   robots?: SeoRobots
   openGraph?: Omit<
     NonNullable<Metadata["openGraph"]>,
@@ -78,6 +79,7 @@ export interface SeoLayoutMetadataInput {
   defaultTitle?: string
   description?: string
   canonicalPath?: string
+  locale?: string
   robots?: SeoRobots
   alternates?: SeoAlternates
 }
