@@ -33,6 +33,20 @@ function useReducedMotion() {
   return reduced
 }
 
+function useCompactViewport(maxWidth = 639) {
+  const [compact, setCompact] = useState(false)
+
+  useEffect(() => {
+    const media = window.matchMedia(`(max-width: ${maxWidth}px)`)
+    const update = () => setCompact(media.matches)
+    update()
+    media.addEventListener("change", update)
+    return () => media.removeEventListener("change", update)
+  }, [maxWidth])
+
+  return compact
+}
+
 function AnimatedSceneTitle({
   title,
   active,
@@ -119,8 +133,6 @@ function SceneShell({
   )
 }
 
-const BOARD_SIZE = 6
-const BOARD_CELL_COUNT = BOARD_SIZE * BOARD_SIZE
 const BOARD_TICK_MS = 760
 const BOARD_RESET_TICKS = 18
 
@@ -147,26 +159,26 @@ function randomPick<T>(items: readonly T[]) {
   return items.length > 0 ? items[randomInt(items.length)] : undefined
 }
 
-function boardIndex(row: number, col: number) {
-  return row * BOARD_SIZE + col
+function boardIndex(boardSize: number, row: number, col: number) {
+  return row * boardSize + col
 }
 
-function boardOrthogonalNeighbors(index: number) {
-  const row = Math.floor(index / BOARD_SIZE)
-  const col = index % BOARD_SIZE
+function boardOrthogonalNeighbors(boardSize: number, index: number) {
+  const row = Math.floor(index / boardSize)
+  const col = index % boardSize
   const neighbors: number[] = []
 
-  if (row > 0) neighbors.push(boardIndex(row - 1, col))
-  if (row < BOARD_SIZE - 1) neighbors.push(boardIndex(row + 1, col))
-  if (col > 0) neighbors.push(boardIndex(row, col - 1))
-  if (col < BOARD_SIZE - 1) neighbors.push(boardIndex(row, col + 1))
+  if (row > 0) neighbors.push(boardIndex(boardSize, row - 1, col))
+  if (row < boardSize - 1) neighbors.push(boardIndex(boardSize, row + 1, col))
+  if (col > 0) neighbors.push(boardIndex(boardSize, row, col - 1))
+  if (col < boardSize - 1) neighbors.push(boardIndex(boardSize, row, col + 1))
 
   return neighbors
 }
 
-function boardAllNeighbors(index: number) {
-  const row = Math.floor(index / BOARD_SIZE)
-  const col = index % BOARD_SIZE
+function boardAllNeighbors(boardSize: number, index: number) {
+  const row = Math.floor(index / boardSize)
+  const col = index % boardSize
   const neighbors: number[] = []
 
   for (let rowOffset = -1; rowOffset <= 1; rowOffset += 1) {
@@ -174,21 +186,22 @@ function boardAllNeighbors(index: number) {
       if (rowOffset === 0 && colOffset === 0) continue
       const nextRow = row + rowOffset
       const nextCol = col + colOffset
-      if (nextRow < 0 || nextRow >= BOARD_SIZE || nextCol < 0 || nextCol >= BOARD_SIZE) continue
-      neighbors.push(boardIndex(nextRow, nextCol))
+      if (nextRow < 0 || nextRow >= boardSize || nextCol < 0 || nextCol >= boardSize) continue
+      neighbors.push(boardIndex(boardSize, nextRow, nextCol))
     }
   }
 
   return neighbors
 }
 
-function createBoardGameState(): BoardGameState {
-  const cells: BoardCellKind[] = Array.from({ length: BOARD_CELL_COUNT }, () => "empty")
-  const homeIndex = randomInt(BOARD_CELL_COUNT)
+function createBoardGameState(boardSize: number): BoardGameState {
+  const boardCellCount = boardSize * boardSize
+  const cells: BoardCellKind[] = Array.from({ length: boardCellCount }, () => "empty")
+  const homeIndex = randomInt(boardCellCount)
   cells[homeIndex] = "home"
 
-  const safeZone = new Set([homeIndex, ...boardAllNeighbors(homeIndex)])
-  const fireCandidates = Array.from({ length: BOARD_CELL_COUNT }, (_, index) => index).filter((index) => !safeZone.has(index))
+  const safeZone = new Set([homeIndex, ...boardAllNeighbors(boardSize, homeIndex)])
+  const fireCandidates = Array.from({ length: boardCellCount }, (_, index) => index).filter((index) => !safeZone.has(index))
   const firstFire = randomPick(fireCandidates)
 
   if (typeof firstFire === "number") {
@@ -211,8 +224,8 @@ function createBoardGameState(): BoardGameState {
     cells,
     homeIndex,
     focusIndex: homeIndex,
-    diceCol: randomInt(BOARD_SIZE) + 1,
-    diceRow: randomInt(BOARD_SIZE) + 1,
+    diceCol: randomInt(boardSize) + 1,
+    diceRow: randomInt(boardSize) + 1,
     actionsLeft: 1,
     digCount: 2,
     turn: 0,
@@ -221,10 +234,10 @@ function createBoardGameState(): BoardGameState {
   }
 }
 
-function advanceBoardGameState(state: BoardGameState): BoardGameState {
+function advanceBoardGameState(boardSize: number, state: BoardGameState): BoardGameState {
   if (state.resetCountdown > 0) {
     if (state.resetCountdown === 1) {
-      return createBoardGameState()
+      return createBoardGameState(boardSize)
     }
 
     return {
@@ -245,9 +258,9 @@ function advanceBoardGameState(state: BoardGameState): BoardGameState {
   }
 
   const cells = [...state.cells]
-  const diceCol = randomInt(BOARD_SIZE) + 1
-  const diceRow = randomInt(BOARD_SIZE) + 1
-  const focusIndex = boardIndex(diceRow - 1, diceCol - 1)
+  const diceCol = randomInt(boardSize) + 1
+  const diceRow = randomInt(boardSize) + 1
+  const focusIndex = boardIndex(boardSize, diceRow - 1, diceCol - 1)
   const phase = state.turn % 3
   let actionsLeft = state.actionsLeft
   let digCount = state.digCount
@@ -265,7 +278,7 @@ function advanceBoardGameState(state: BoardGameState): BoardGameState {
       actionsLeft = 2
       message = "Home found"
     } else if (focusedCell === "fire") {
-      boardOrthogonalNeighbors(focusIndex).forEach((neighbor) => {
+      boardOrthogonalNeighbors(boardSize, focusIndex).forEach((neighbor) => {
         if (cells[neighbor] === "empty") {
           cells[neighbor] = "slash"
         }
@@ -301,7 +314,7 @@ function advanceBoardGameState(state: BoardGameState): BoardGameState {
     if (fireIndices.length > 0) {
       const sourceIndex = randomPick(fireIndices)
       if (typeof sourceIndex === "number") {
-        boardOrthogonalNeighbors(sourceIndex).forEach((neighbor) => {
+        boardOrthogonalNeighbors(boardSize, sourceIndex).forEach((neighbor) => {
           if (cells[neighbor] === "empty") {
             cells[neighbor] = "slash"
           } else if (cells[neighbor] === "slash") {
@@ -410,20 +423,27 @@ function ProductBuildVisual({
   strength: number
   reducedMotion: boolean
 }) {
-  const [boardState, setBoardState] = useState<BoardGameState>(() => createBoardGameState())
+  const compact = useCompactViewport()
+  const boardSize = compact ? 4 : 6
+  const boardCellCount = boardSize * boardSize
+  const [boardState, setBoardState] = useState<BoardGameState>(() => createBoardGameState(boardSize))
 
   useEffect(() => {
     if (reducedMotion) {
-      setBoardState(createBoardGameState())
+      setBoardState(createBoardGameState(boardSize))
       return
     }
 
     const interval = window.setInterval(() => {
-      setBoardState((current) => advanceBoardGameState(current))
+      setBoardState((current) => advanceBoardGameState(boardSize, current))
     }, BOARD_TICK_MS)
 
     return () => window.clearInterval(interval)
-  }, [reducedMotion])
+  }, [boardSize, reducedMotion])
+
+  useEffect(() => {
+    setBoardState(createBoardGameState(boardSize))
+  }, [boardSize])
 
   const statusLabel = boardState.resetCountdown > 0 ? "Resetting" : boardState.message
   const actionLabel = `Actions ${boardState.actionsLeft}`
@@ -461,7 +481,7 @@ function ProductBuildVisual({
 
         <div className="absolute inset-0 flex items-center justify-center px-4 pt-16 pb-16 sm:px-6 sm:pt-20 sm:pb-20">
           <div className="relative w-full max-w-[560px]">
-            <div className="relative mx-auto aspect-square w-[min(50vw,190px)] -translate-x-[3.5%] sm:w-[min(62vw,468px)]">
+            <div className="relative mx-auto aspect-square w-[min(70vw,248px)] -translate-x-[3.5%] sm:w-[min(62vw,468px)]">
               <div
                 className="absolute inset-0 rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_50%_34%,rgba(255,255,255,0.07),transparent_48%),linear-gradient(180deg,rgba(11,7,4,0.98),rgba(7,4,3,0.98))] shadow-[0_0_80px_rgba(255,122,61,0.08)]"
                 style={{
@@ -470,8 +490,14 @@ function ProductBuildVisual({
               />
               <div className="absolute inset-[10px] rounded-[1.65rem] border border-white/8 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.04),transparent_44%),linear-gradient(180deg,rgba(8,5,4,0.95),rgba(6,4,3,0.98))]">
                 <div className="absolute inset-[2.35rem] rounded-[1.25rem] border border-white/6 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02),transparent_55%)] p-2">
-                  <div className="grid h-full grid-cols-6 grid-rows-6 gap-1.5">
-                    {boardState.cells.map((kind, index) => {
+                  <div
+                    className="grid h-full gap-1.5"
+                    style={{
+                      gridTemplateColumns: `repeat(${boardSize}, minmax(0, 1fr))`,
+                      gridTemplateRows: `repeat(${boardSize}, minmax(0, 1fr))`,
+                    }}
+                  >
+                    {boardState.cells.slice(0, boardCellCount).map((kind, index) => {
                       const isFocus = boardState.focusIndex === index
                       const isHome = kind === "home"
                       const isFire = kind === "fire"
@@ -514,7 +540,7 @@ function ProductBuildVisual({
                                         : isDig
                                           ? "service-board-dig 2.35s ease-in-out infinite"
                                           : "none",
-                            animationDelay: `${(index % 6) * 70}ms`,
+                            animationDelay: `${(index % boardSize) * 70}ms`,
                           }}
                         >
                           {isFocus ? (
@@ -574,7 +600,7 @@ function VisibilityVisual({
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.02),transparent_26%),linear-gradient(180deg,rgba(2,3,5,1),rgba(2,3,5,1))]" />
         <div className="absolute inset-0 opacity-[0.08] [background-image:linear-gradient(rgba(255,255,255,0.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.08)_1px,transparent_1px)] [background-size:28px_28px]" />
 
-        <svg className="absolute inset-0 h-full w-full" viewBox={compact ? "0 0 1000 860" : "0 0 1000 700"} preserveAspectRatio={compact ? "xMidYMid meet" : "none"} aria-hidden>
+        <svg className="absolute inset-0 h-full w-full" viewBox={compact ? "0 0 1000 980" : "0 0 1000 700"} preserveAspectRatio={compact ? "xMidYMid meet" : "none"} aria-hidden>
           <defs>
             <linearGradient id="visLineA" x1="0" x2="1" y1="0" y2="0">
               <stop offset="0%" stopColor="rgba(255,255,255,0)" />
@@ -602,12 +628,12 @@ function VisibilityVisual({
             </filter>
           </defs>
 
-          <g transform={compact ? "translate(-46 46) scale(1.18)" : "translate(-154 0)"}>
+          <g transform={compact ? "translate(-12 96) scale(1.55)" : "translate(-154 0)"}>
             <path
               d="M 624 118 C 744 132, 796 208, 752 274 C 704 346, 676 402, 706 470"
               fill="none"
               stroke="url(#visLineA)"
-              strokeWidth={compact ? "6.8" : "5"}
+              strokeWidth={compact ? "8.4" : "5"}
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeDasharray="12 16"
@@ -621,7 +647,7 @@ function VisibilityVisual({
               d="M 648 124 C 756 145, 780 214, 742 276 C 702 344, 694 390, 726 458"
               fill="none"
               stroke="url(#visLineB)"
-              strokeWidth={compact ? "5" : "3.6"}
+              strokeWidth={compact ? "6.2" : "3.6"}
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeDasharray="8 12"
@@ -635,7 +661,7 @@ function VisibilityVisual({
               d="M 610 150 C 714 168, 764 228, 738 288 C 710 353, 704 406, 746 474"
               fill="none"
               stroke="url(#visLineC)"
-              strokeWidth={compact ? "3.4" : "2.2"}
+              strokeWidth={compact ? "4.8" : "2.2"}
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeDasharray="4 10"
@@ -649,7 +675,7 @@ function VisibilityVisual({
               d="M 614 198 C 726 198, 790 228, 796 278 C 801 325, 778 374, 744 446"
               fill="none"
               stroke="#ff61c6"
-              strokeWidth={compact ? "2.4" : "1.5"}
+              strokeWidth={compact ? "3.4" : "1.5"}
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeDasharray="2 10"
