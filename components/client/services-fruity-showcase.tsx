@@ -448,8 +448,6 @@ function ProductBuildVisual({
   const statusLabel = boardState.resetCountdown > 0 ? "Resetting" : boardState.message
   const actionLabel = `Actions ${boardState.actionsLeft}`
   const digLabel = `Dig ${boardState.digCount}`
-  const turnLabel = `Turn ${Math.min(boardState.turn + 1, BOARD_RESET_TICKS)}`
-
   return (
     <SceneShell
       className="bg-[#050301] dark:bg-[#030203]"
@@ -563,7 +561,6 @@ function ProductBuildVisual({
           <div className="mx-auto flex max-w-[560px] items-center gap-2 rounded-full border border-white/10 bg-black/38 px-3 py-2 text-[10px] font-semibold uppercase tracking-[0.22em] text-white/55 backdrop-blur">
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[color:var(--accent)]">{actionLabel}</span>
             <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1">{digLabel}</span>
-            <span className="ml-auto rounded-full border border-white/10 bg-white/5 px-3 py-1">{turnLabel}</span>
           </div>
         </div>
       </div>
@@ -628,15 +625,15 @@ function VisibilityVisual({
             </filter>
           </defs>
 
-          <g transform={compact ? "translate(-12 96) scale(1.55)" : "translate(-154 0)"}>
+          <g transform={compact ? "translate(-465 -112) scale(1.65)" : "translate(-154 0)"}>
             <path
               d="M 624 118 C 744 132, 796 208, 752 274 C 704 346, 676 402, 706 470"
               fill="none"
               stroke="url(#visLineA)"
-              strokeWidth={compact ? "8.4" : "5"}
+              strokeWidth={compact ? "9.2" : "5"}
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeDasharray="12 16"
+              strokeDasharray={compact ? "18 22" : "12 16"}
               style={{
                 filter: "url(#visGlow)",
                 animation: reducedMotion ? "none" : "service-line-drift 7.2s linear infinite",
@@ -647,10 +644,10 @@ function VisibilityVisual({
               d="M 648 124 C 756 145, 780 214, 742 276 C 702 344, 694 390, 726 458"
               fill="none"
               stroke="url(#visLineB)"
-              strokeWidth={compact ? "6.2" : "3.6"}
+              strokeWidth={compact ? "7.2" : "3.6"}
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeDasharray="8 12"
+              strokeDasharray={compact ? "14 18" : "8 12"}
               style={{
                 filter: "url(#visGlow)",
                 animation: reducedMotion ? "none" : "service-line-drift 8.2s linear infinite reverse",
@@ -661,10 +658,10 @@ function VisibilityVisual({
               d="M 610 150 C 714 168, 764 228, 738 288 C 710 353, 704 406, 746 474"
               fill="none"
               stroke="url(#visLineC)"
-              strokeWidth={compact ? "4.8" : "2.2"}
+              strokeWidth={compact ? "5.8" : "2.2"}
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeDasharray="4 10"
+              strokeDasharray={compact ? "10 16" : "4 10"}
               style={{
                 filter: "url(#visGlow)",
                 animation: reducedMotion ? "none" : "service-line-drift 6.4s linear infinite",
@@ -675,10 +672,10 @@ function VisibilityVisual({
               d="M 614 198 C 726 198, 790 228, 796 278 C 801 325, 778 374, 744 446"
               fill="none"
               stroke="#ff61c6"
-              strokeWidth={compact ? "3.4" : "1.5"}
+              strokeWidth={compact ? "4.2" : "1.5"}
               strokeLinecap="round"
               strokeLinejoin="round"
-              strokeDasharray="2 10"
+              strokeDasharray={compact ? "6 14" : "2 10"}
               style={{
                 filter: "url(#visGlow)",
                 animation: reducedMotion ? "none" : "service-line-drift 9s linear infinite reverse",
