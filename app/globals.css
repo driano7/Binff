@@ -103,6 +103,13 @@
     text-wrap: balance;
   }
 
+  a,
+  a:hover,
+  u,
+  .underline {
+    text-decoration: none !important;
+  }
+
   .font-display-syne {
     font-family: var(--font-syne), sans-serif;
   }
@@ -483,9 +490,7 @@
 
   .blog-content a {
     color: var(--blog-signal, var(--accent));
-    text-decoration: underline;
-    text-decoration-thickness: 1.5px;
-    text-underline-offset: 0.18em;
+    text-decoration: none;
   }
 
   .blog-content strong {

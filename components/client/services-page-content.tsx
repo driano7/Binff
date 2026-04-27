@@ -8,20 +8,20 @@ import { getSiteCopy, type Locale } from "@/content/client/site-content"
 const fruityShowcaseCopy = {
   en: [
     {
-      eyebrow: "01 / Product build",
-      title: "Web design and mobile app",
-      summary: "Custom sites and mobile flows built to feel familiar, fast, and ready for launch.",
-      bullets: ["Custom websites", "Mobile-ready flows", "Launch-ready UX"],
+      eyebrow: "A / Product",
+      title: "Product build for web and mobile",
+      summary: "We prototype visual flows that feel like real product screens and are ready to ship.",
+      bullets: ["Web product UI", "Mobile UX", "Launch-ready flows"],
     },
     {
-      eyebrow: "02 / Visibility",
+      eyebrow: "B / Visibility",
       title: "Web positioning (SEO) + AIs",
       summary:
         "We structure pages, content, and metadata so Google and AI tools can read the product clearly.",
-      bullets: ["Clear pages", "Simple navigation", "AI-readable content"],
+      bullets: ["SEO local", "Metadata", "AI-readable"],
     },
     {
-      eyebrow: "03 / Systems layer",
+      eyebrow: "C / Systems",
       title: "Web3 + IA",
       summary:
         "AI, automation, payments, and Web3 are added only when they strengthen the product.",
@@ -30,20 +30,20 @@ const fruityShowcaseCopy = {
   ],
   fr: [
     {
-      eyebrow: "01 / Produit",
-      title: "Conception web et app mobile",
+      eyebrow: "A / Produit",
+      title: "Production produit web et mobile",
       summary: "Des sites sur mesure et des parcours mobiles pensés pour paraître familiers, rapides et prêts au lancement.",
       bullets: ["Sites sur mesure", "Parcours mobile-first", "UX prête au lancement"],
     },
     {
-      eyebrow: "02 / Visibilité",
+      eyebrow: "B / Visibilité",
       title: "Positionnement web (SEO) + IA",
       summary:
         "Nous structurons les pages, le contenu et les métadonnées pour que Google et les outils d’IA lisent le produit clairement.",
-      bullets: ["Pages claires", "Navigation simple", "Contenu lisible par IA"],
+      bullets: ["SEO local", "Métadonnées", "Lisible IA"],
     },
     {
-      eyebrow: "03 / Couche système",
+      eyebrow: "C / Systèmes",
       title: "Web3 + IA",
       summary:
         "Nous ajoutons l’IA, l’automatisation, les paiements et le Web3 seulement lorsqu’ils renforcent le produit.",
@@ -52,20 +52,20 @@ const fruityShowcaseCopy = {
   ],
   es: [
     {
-      eyebrow: "01 / Producto",
-      title: "Web design y mobile app",
-      summary: "Sitios a medida y flujos móviles que se sienten familiares, rápidos y listos para lanzar.",
-      bullets: ["Sitios a medida", "Flujos mobile-first", "UX lista para lanzar"],
+      eyebrow: "A / Producto",
+      title: "Construcción de producto web y mobile",
+      summary: "Mostramos flujos visuales que se sienten como producto real y listos para lanzar.",
+      bullets: ["UI web", "UX móvil", "Flujos listos"],
     },
     {
-      eyebrow: "02 / Visibilidad",
+      eyebrow: "B / Visibilidad",
       title: "Posicionamiento web (SEO) + AIs",
       summary:
         "Ordenamos páginas, contenido y metadatos para que Google y las herramientas de IA lean el producto con claridad.",
-      bullets: ["Páginas claras", "Navegación simple", "Contenido legible por IA"],
+      bullets: ["SEO local", "Metadatos", "Legible por IA"],
     },
     {
-      eyebrow: "03 / Capa de sistemas",
+      eyebrow: "C / Sistemas",
       title: "Web3 + IA",
       summary:
         "Sumamos AI, automatización, pagos y Web3 solo cuando refuerzan el producto.",

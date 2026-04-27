@@ -54,8 +54,8 @@ export function SiteHeader({ locale }: SiteHeaderProps) {
                 loading="eager"
               />
             </span>
-            <span className="font-display-syne truncate text-sm font-black leading-[0.94] tracking-[-0.05em] text-[#E03A1E] sm:text-base">
-              {copy.brand.name} Studio
+            <span className="font-display-syne truncate text-[0.8rem] font-extrabold uppercase leading-[0.94] tracking-[0.14em] text-[#E03A1E] sm:text-[0.88rem]">
+              {copy.brand.name.toUpperCase()} STUDIO
             </span>
           </Link>
 

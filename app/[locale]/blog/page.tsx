@@ -8,7 +8,7 @@ import { BlogArticle } from "@/components/core/blog-article"
 import { ScrollReveal } from "@/components/core/scroll-reveal"
 import { Button } from "@/components/ui/button"
 import { getSiteCopy, locales, type Locale } from "@/lib/site-content"
-import { readLocalizedMdx, renderMdxToHtml } from "@/lib/mdx"
+import { readLocalizedMdx } from "@/lib/mdx"
 import { localizedBlogHref } from "@/lib/navigation"
 import { buildPageMetadata, seoConfig } from "@/lib/seo"
 
@@ -122,7 +122,7 @@ export default async function BlogPage({ params }: LocalePageProps) {
       </section>
 
       <ScrollReveal direction="up">
-        <BlogArticle title={doc.title} excerpt={doc.excerpt} html={renderMdxToHtml(doc.content)} />
+        <BlogArticle title={doc.title} excerpt="" html="" />
       </ScrollReveal>
 
       <section className="mt-8 grid gap-4 md:grid-cols-2">
@@ -136,13 +136,13 @@ export default async function BlogPage({ params }: LocalePageProps) {
                   <span className="blog-pill inline-flex rounded-full border px-2.5 py-1 font-blog-mono text-[11px] uppercase tracking-[0.14em]">
                     {post.tag}
                   </span>
-                  <h2 className="blog-ink font-blog-syne text-base font-bold leading-tight tracking-[-0.03em] sm:text-lg">
+                  <h2 className="blog-ink font-blog-syne text-[0.8rem] font-bold leading-tight tracking-[-0.03em] sm:text-[0.9rem]">
                     {post.title}
                   </h2>
                   <p className="blog-muted font-blog-syne text-sm leading-7">{post.excerpt}</p>
                   <Link
                     href={localizedBlogHref(typedLocale, post.slug)}
-                    className="inline-flex items-center gap-2 pt-2 font-blog-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--blog-signal)] underline decoration-transparent underline-offset-4 transition hover:decoration-current"
+                    className="inline-flex items-center gap-2 pt-2 font-blog-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--blog-signal)] transition"
                   >
                     {typedLocale === "es" ? "Leer artículo" : typedLocale === "fr" ? "Lire l’article" : "Read article"}
                     <ArrowUpRight className="h-4 w-4" />

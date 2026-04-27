@@ -418,10 +418,10 @@ export function PackagesPageContent({ locale }: PackagesPageContentProps) {
               </p>
               <h3 className="text-2xl font-semibold tracking-tight text-card-foreground">
                 {locale === "es"
-                  ? "¿Buscas otro tipo de sitio web?"
+                  ? "Habla con nosotros"
                   : locale === "fr"
-                    ? "Vous cherchez un autre type de site web?"
-                    : "Need another type of website?"}
+                    ? "Parlons ensemble"
+                    : "Talk to us"}
               </h3>
               <p className="text-sm leading-7 text-muted-foreground md:text-base">
                 {locale === "es"

@@ -1,9 +1,9 @@
 import Link from "next/link"
 import { ArrowUpRight } from "lucide-react"
 import type { Metadata } from "next"
+import Image from "next/image"
 
 import { Button } from "@/components/ui/button"
-import { HomeShatteringBackground } from "@/components/client/home-shattering-background"
 import { Seo } from "@/components/seo/Seo"
 import { buildBreadcrumbList, buildPageMetadata, seoConfig } from "@/lib/seo"
 import { getLocaleFromCookies } from "@/lib/locale"
@@ -46,8 +46,15 @@ export default async function Home() {
       <Seo entities={entities} />
       <section className="relative isolate flex min-h-screen items-center justify-center px-4 pt-28 sm:px-6 lg:pt-32">
         <div className="absolute inset-0">
-          <HomeShatteringBackground src="/serene-nature-sharp.jpg" />
-          <div className="absolute inset-0 bg-gradient-to-b from-black/18 via-black/10 to-background/45" />
+          <Image
+            src="/serene-nature-sharp.jpg"
+            alt="Paisaje natural"
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/0 via-background/5 to-background/36" />
         </div>
 
         <div
@@ -59,7 +66,7 @@ export default async function Home() {
           >
             <span className="home-reveal-title__line">
               <span className="font-black leading-[0.94] tracking-[-0.05em] bg-gradient-to-b from-white via-white to-zinc-300 bg-clip-text text-transparent dark:from-white dark:via-white dark:to-zinc-400">
-                {copy.brand.name} Studio
+                {copy.brand.name.toUpperCase()} STUDIO
               </span>
             </span>
             <span className="home-reveal-title__line mt-10 block sm:mt-12">

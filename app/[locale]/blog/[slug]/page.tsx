@@ -180,7 +180,12 @@ export default async function BlogPostPage({ params }: PageProps) {
 
       <section className="space-y-8">
         <ScrollReveal direction="up">
-          <BlogArticle title={post.title} excerpt={post.excerpt} html={html} />
+          <BlogArticle
+            title={post.title}
+            excerpt={post.excerpt}
+            html={html}
+            meta={{ readTime: post.readTime, date: post.date, category: post.category }}
+          />
         </ScrollReveal>
 
         {hasSeoLlmPanel ? (
@@ -266,9 +271,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                       <article className="blog-surface-soft rounded-[1.6rem] border p-4">
                         <p className="font-blog-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--blog-stone)]">{panelCopy.takeaway}</p>
                         <blockquote className="blog-surface-strong mt-3 rounded-2xl border p-4 text-sm leading-7">
-                          <span className="underline decoration-[color:var(--blog-signal)] decoration-2 underline-offset-4">
-                            {post.snippetTakeaway}
-                          </span>
+                          <span>{post.snippetTakeaway}</span>
                         </blockquote>
                       </article>
                     </ScrollReveal>
@@ -301,7 +304,7 @@ export default async function BlogPostPage({ params }: PageProps) {
                           {internalLinks.map((linkItem, index) => (
                             <ScrollReveal key={`${linkItem.label}-${linkItem.href}`} direction={getCardRevealDirection(index)} delay={0.08 + index * 0.08} once>
                               <div className="blog-surface-strong rounded-2xl border p-4">
-                                <Link href={linkItem.href} className="font-blog-syne font-bold text-[color:var(--blog-signal)] hover:underline">
+                                <Link href={linkItem.href} className="font-blog-syne font-bold text-[color:var(--blog-signal)]">
                                   {linkItem.label}
                                 </Link>
                                 <p className="blog-muted mt-2 font-blog-syne text-sm leading-6">{linkItem.purpose}</p>
@@ -319,11 +322,6 @@ export default async function BlogPostPage({ params }: PageProps) {
         ) : null}
 
         <div className="space-y-5 text-center">
-          <div className="flex flex-wrap justify-center gap-3 font-blog-mono text-[9px] uppercase tracking-[0.16em] text-[color:var(--blog-signal)]">
-            <span>{post.category}</span>
-            <span>{post.date}</span>
-            <span>{post.readTime}</span>
-          </div>
           <div className="flex flex-wrap justify-center gap-3">
             <Button asChild className="blog-cta rounded-full border border-[color:var(--blog-border)] px-5 font-blog-mono text-[9px] uppercase tracking-[0.16em]">
               <Link href={localizedBlogHref(typedLocale)}>

@@ -451,8 +451,8 @@ function ProductBuildVisual({
   return (
     <SceneShell
       className="bg-[#050301] dark:bg-[#030203]"
-      title="Board prototype"
-      eyebrow="01 / Game motion"
+      title="iPhone game preview"
+      eyebrow="A / Product motion"
       strength={strength}
       reducedMotion={reducedMotion}
     >
@@ -477,79 +477,91 @@ function ProductBuildVisual({
           Auto play
         </div>
 
-        <div className="absolute inset-0 flex items-center justify-center px-4 pt-16 pb-16 sm:px-6 sm:pt-20 sm:pb-20">
+        <div className="absolute inset-0 flex items-center justify-center px-4 pt-14 pb-16 sm:px-6 sm:pt-18 sm:pb-20">
           <div className="relative w-full max-w-[560px]">
-            <div className="relative mx-auto aspect-square w-[min(70vw,248px)] -translate-x-[3.5%] sm:w-[min(62vw,468px)]">
+            <div className="relative mx-auto aspect-[9/19] w-[min(56vw,288px)]">
               <div
-                className="absolute inset-0 rounded-[2rem] border border-white/10 bg-[radial-gradient(circle_at_50%_34%,rgba(255,255,255,0.07),transparent_48%),linear-gradient(180deg,rgba(11,7,4,0.98),rgba(7,4,3,0.98))] shadow-[0_0_80px_rgba(255,122,61,0.08)]"
-                style={{
-                  transform: `scale(${lerp(0.98, 1.02, strength)})`,
-                }}
+                className="absolute inset-0 rounded-[2.75rem] border border-white/16 bg-[linear-gradient(180deg,rgba(18,18,20,0.98),rgba(8,8,10,0.99))] shadow-[0_30px_90px_rgba(0,0,0,0.45)]"
+                style={{ transform: `scale(${lerp(0.98, 1.02, strength)})` }}
               />
-              <div className="absolute inset-[10px] rounded-[1.65rem] border border-white/8 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.04),transparent_44%),linear-gradient(180deg,rgba(8,5,4,0.95),rgba(6,4,3,0.98))]">
-                <div className="absolute inset-[2.35rem] rounded-[1.25rem] border border-white/6 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.02),transparent_55%)] p-2">
-                  <div
-                    className="grid h-full gap-1.5"
-                    style={{
-                      gridTemplateColumns: `repeat(${boardSize}, minmax(0, 1fr))`,
-                      gridTemplateRows: `repeat(${boardSize}, minmax(0, 1fr))`,
-                    }}
-                  >
-                    {boardState.cells.slice(0, boardCellCount).map((kind, index) => {
-                      const isFocus = boardState.focusIndex === index
-                      const isHome = kind === "home"
-                      const isFire = kind === "fire"
-                      const isSlash = kind === "slash"
-                      const isDouse = kind === "douse"
-                      const isDig = kind === "dig"
+              <div className="absolute left-1/2 top-3 z-20 h-7 w-28 -translate-x-1/2 rounded-full border border-white/15 bg-black/65">
+                <div className="flex h-full items-center justify-center gap-2">
+                  <span className="h-1.5 w-10 rounded-full bg-white/24" />
+                  <span className="h-2 w-2 rounded-full bg-black shadow-[0_0_8px_rgba(0,0,0,0.5)]" />
+                </div>
+              </div>
+              <div className="absolute inset-[9px] rounded-[2.25rem] border border-white/10 bg-[linear-gradient(180deg,rgba(6,5,7,0.96),rgba(8,5,4,0.98))] p-3 pt-11">
+                <div className="relative h-full overflow-hidden rounded-[1.65rem] border border-white/12 bg-[radial-gradient(circle_at_25%_16%,rgba(255,158,88,0.24),transparent_38%),radial-gradient(circle_at_76%_20%,rgba(255,88,167,0.18),transparent_42%),linear-gradient(180deg,rgba(12,8,6,0.98),rgba(8,5,4,0.98))] p-2.5">
+                  <div className="absolute inset-x-2 top-2 rounded-xl border border-white/10 bg-black/35 px-2 py-1 text-center text-[9px] font-semibold uppercase tracking-[0.22em] text-[color:var(--accent)]">
+                    Game Session
+                  </div>
+                  <div className="absolute inset-x-2 bottom-2 rounded-xl border border-white/10 bg-black/35 px-2 py-1 text-[9px] font-semibold uppercase tracking-[0.2em] text-white/58">
+                    Turno {boardState.turn}
+                  </div>
+                  <div className="absolute inset-x-2 bottom-8 top-11 rounded-[1.05rem] border border-white/10 bg-[radial-gradient(circle_at_50%_38%,rgba(255,255,255,0.05),transparent_56%)] p-1.5">
+                    <div
+                      className="grid h-full gap-1.5"
+                      style={{
+                        gridTemplateColumns: `repeat(${boardSize}, minmax(0, 1fr))`,
+                        gridTemplateRows: `repeat(${boardSize}, minmax(0, 1fr))`,
+                      }}
+                    >
+                      {boardState.cells.slice(0, boardCellCount).map((kind, index) => {
+                        const isFocus = boardState.focusIndex === index
+                        const isHome = kind === "home"
+                        const isFire = kind === "fire"
+                        const isSlash = kind === "slash"
+                        const isDouse = kind === "douse"
+                        const isDig = kind === "dig"
 
-                      return (
-                        <div
-                          key={`${kind}-${index}`}
-                          className={cn(
-                            "relative grid place-items-center rounded-xl border transition-[transform,background-color,border-color,box-shadow,opacity] duration-500 ease-out will-change-transform",
-                            isHome
-                              ? "border-[color:var(--accent)]/35 bg-[radial-gradient(circle_at_45%_35%,rgba(255,244,220,0.18),transparent_64%),rgba(255,122,61,0.1)] text-[color:var(--accent)]"
-                              : isFire
-                                ? "border-[#ff8b4a]/45 bg-[radial-gradient(circle_at_50%_40%,rgba(255,180,104,0.22),transparent_48%),rgba(55,19,9,0.82)] text-[#ff9a53]"
-                                : isSlash
-                                  ? "border-[#ff7a3d]/40 bg-[rgba(61,22,12,0.62)] text-[#ff7a3d]"
-                                  : isDouse
-                                    ? "border-[#23c79a]/30 bg-[rgba(12,41,30,0.7)] text-[#23c79a]"
-                                    : isDig
-                                      ? "border-[#f4b14a]/30 bg-[rgba(46,31,10,0.62)] text-[#f4b14a]"
-                                      : "border-white/8 bg-white/[0.025] text-white/20",
-                            isFocus ? "shadow-[0_0_0_1px_rgba(255,122,61,0.3),0_0_20px_rgba(255,122,61,0.18)]" : "",
-                          )}
-                          style={{
-                            transform: `scale(${isFocus ? 1.06 : 1})`,
-                            opacity: lerp(0.84, 1, strength),
-                            animation:
-                              reducedMotion
-                                ? "none"
+                        return (
+                          <div
+                            key={`${kind}-${index}`}
+                            className={cn(
+                              "relative grid place-items-center rounded-xl border transition-[transform,background-color,border-color,box-shadow,opacity] duration-500 ease-out will-change-transform",
+                              isHome
+                                ? "border-[color:var(--accent)]/35 bg-[radial-gradient(circle_at_45%_35%,rgba(255,244,220,0.18),transparent_64%),rgba(255,122,61,0.1)] text-[color:var(--accent)]"
                                 : isFire
-                                  ? "service-board-fire 1.28s ease-in-out infinite"
+                                  ? "border-[#ff8b4a]/45 bg-[radial-gradient(circle_at_50%_40%,rgba(255,180,104,0.22),transparent_48%),rgba(55,19,9,0.82)] text-[#ff9a53]"
                                   : isSlash
-                                    ? "service-board-scan 1.8s ease-in-out infinite"
-                                    : isHome
-                                      ? "service-board-home 2.8s ease-in-out infinite"
-                                      : isDouse
-                                        ? "service-board-douse 2.2s ease-in-out infinite"
-                                        : isDig
-                                          ? "service-board-dig 2.35s ease-in-out infinite"
-                                          : "none",
-                            animationDelay: `${(index % boardSize) * 70}ms`,
-                          }}
-                        >
-                          {isFocus ? (
-                            <span className="absolute inset-0 rounded-xl border border-[color:var(--accent)]/20 bg-[radial-gradient(circle_at_50%_50%,rgba(255,122,61,0.1),transparent_62%)]" />
-                          ) : null}
-                          <span className="relative z-10">
-                            <BoardGlyph kind={kind} />
-                          </span>
-                        </div>
-                      )
-                    })}
+                                    ? "border-[#ff7a3d]/40 bg-[rgba(61,22,12,0.62)] text-[#ff7a3d]"
+                                    : isDouse
+                                      ? "border-[#23c79a]/30 bg-[rgba(12,41,30,0.7)] text-[#23c79a]"
+                                      : isDig
+                                        ? "border-[#f4b14a]/30 bg-[rgba(46,31,10,0.62)] text-[#f4b14a]"
+                                        : "border-white/8 bg-white/[0.025] text-white/20",
+                              isFocus ? "shadow-[0_0_0_1px_rgba(255,122,61,0.3),0_0_20px_rgba(255,122,61,0.18)]" : "",
+                            )}
+                            style={{
+                              transform: `scale(${isFocus ? 1.06 : 1})`,
+                              opacity: lerp(0.84, 1, strength),
+                              animation:
+                                reducedMotion
+                                  ? "none"
+                                  : isFire
+                                    ? "service-board-fire 1.28s ease-in-out infinite"
+                                    : isSlash
+                                      ? "service-board-scan 1.8s ease-in-out infinite"
+                                      : isHome
+                                        ? "service-board-home 2.8s ease-in-out infinite"
+                                        : isDouse
+                                          ? "service-board-douse 2.2s ease-in-out infinite"
+                                          : isDig
+                                            ? "service-board-dig 2.35s ease-in-out infinite"
+                                            : "none",
+                              animationDelay: `${(index % boardSize) * 70}ms`,
+                            }}
+                          >
+                            {isFocus ? (
+                              <span className="absolute inset-0 rounded-xl border border-[color:var(--accent)]/20 bg-[radial-gradient(circle_at_50%_50%,rgba(255,122,61,0.1),transparent_62%)]" />
+                            ) : null}
+                            <span className="relative z-10">
+                              <BoardGlyph kind={kind} />
+                            </span>
+                          </div>
+                        )
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -589,7 +601,7 @@ function VisibilityVisual({
     <SceneShell
       className="bg-[#020305] dark:bg-[#010204]"
       title="Visibility"
-      eyebrow="02 / Bound motion"
+      eyebrow="B / Visibility graph"
       strength={strength}
       reducedMotion={reducedMotion}
     >
@@ -714,7 +726,7 @@ function SystemsLayerVisual({
     <SceneShell
       className="bg-[#04070b] dark:bg-[#030407]"
       title="Systems layer"
-      eyebrow="03 / Final can"
+      eyebrow="C / Systems layer"
       strength={strength}
       reducedMotion={reducedMotion}
     >
@@ -820,7 +832,7 @@ function ScenePanel({
       <div className="grid h-full items-center gap-6 lg:grid-cols-[1.04fr_0.96fr]">
         <div className="space-y-5">
           <p className="text-xs font-semibold uppercase tracking-[0.3em] text-[color:var(--accent)]">{scene.eyebrow}</p>
-          <div className={cn(isVisibilityScene ? "sm:translate-x-[-30%]" : "")}>
+          <div className={cn(isVisibilityScene ? "lg:flex lg:justify-center" : "")}>
             <AnimatedSceneTitle title={scene.title} active={isActive} />
           </div>
           <p className="max-w-2xl text-sm leading-7 text-muted-foreground md:text-base">{scene.summary}</p>

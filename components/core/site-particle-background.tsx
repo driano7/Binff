@@ -33,50 +33,50 @@ export function SiteParticleBackground({ theme }: SiteParticleBackgroundProps) {
         <>
           <DotBackground
             className="opacity-100 mix-blend-normal"
-            quantity={300}
+            quantity={210}
             speed={0.168}
             radiusScale={1.15}
-            alphaScale={2.2}
+            alphaScale={1.87}
             accentRatio={0}
             baseColor="255, 255, 255"
             accentColor="255, 255, 255"
-            opacity={1}
+            opacity={0.85}
           />
           <DotBackground
             className="opacity-100 mix-blend-normal"
-            quantity={110}
+            quantity={77}
             speed={0.11}
             radiusScale={1}
-            alphaScale={1.05}
+            alphaScale={0.9}
             accentRatio={1}
             baseColor="224, 58, 30"
             accentColor="224, 58, 30"
-            opacity={0.66}
+            opacity={0.56}
           />
         </>
       ) : (
         <>
           <DotBackground
             className="opacity-100 mix-blend-multiply"
-            quantity={620}
+            quantity={434}
             speed={0.24}
             radiusScale={1.48}
-            alphaScale={1.59}
+            alphaScale={1.35}
             accentRatio={0}
             baseColor="8, 8, 8"
             accentColor="8, 8, 8"
-            opacity={0.68}
+            opacity={0.58}
           />
           <DotBackground
             className="opacity-100 mix-blend-normal"
-            quantity={220}
+            quantity={154}
             speed={0.12}
             radiusScale={0.98}
-            alphaScale={0.94}
+            alphaScale={0.8}
             accentRatio={1}
             baseColor="224, 58, 30"
             accentColor="224, 58, 30"
-            opacity={0.34}
+            opacity={0.29}
           />
         </>
       )}

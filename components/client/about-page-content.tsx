@@ -239,10 +239,7 @@ function AboutMapsSection({ locale }: { locale: Locale }) {
         </div>
 
         <div className="grid gap-4">
-          <details
-            open
-            className="group rounded-[2rem] border border-border/60 bg-card/80 p-5 shadow-[0_18px_55px_-28px_rgba(2,6,23,0.35)] dark:bg-card/70 md:p-6"
-          >
+          <details className="group rounded-[2rem] border border-border/60 bg-card/80 p-5 shadow-[0_18px_55px_-28px_rgba(2,6,23,0.35)] dark:bg-card/70 md:p-6">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4 text-left">
               <div className="space-y-1">
                 <p className="text-xs font-semibold uppercase tracking-[0.28em] text-[color:var(--accent)]">G maps</p>
@@ -344,11 +341,7 @@ export function AboutPageContent({ locale }: AboutPageContentProps) {
               <div className="mx-auto max-w-3xl rounded-[2rem] border border-border/60 bg-card/80 p-5 text-sm leading-8 text-muted-foreground shadow-[0_18px_55px_-28px_rgba(2,6,23,0.35)] dark:bg-card/70 md:p-6 md:text-base">
                 <p className="font-display-syne">{whyMattersCopy[locale].lead}</p>
                 <p className="mt-3 text-card-foreground">
-                  <strong>
-                    <span className="underline decoration-[color:var(--accent)] decoration-2 underline-offset-4">
-                      {whyMattersCopy[locale].emphasis}
-                    </span>
-                  </strong>
+                  <strong>{whyMattersCopy[locale].emphasis}</strong>
                 </p>
                 <p className="font-display-syne mt-3">{whyMattersCopy[locale].support}</p>
               </div>
